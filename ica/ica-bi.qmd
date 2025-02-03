@@ -208,6 +208,8 @@ How many, or roughly what percent, of the 3000+ counties did the Republican cand
 -   Then discuss what follow-up questions you might have (and that our data might help us answer).
 
 ```{r}
+ggplot(elections, aes(x = winner_20)) +
+     geom_bar()
 ```
 
 #### Part b {.unnumbered}
@@ -219,6 +221,7 @@ Notice that the distribution of Republican support from county to county is slig
 What follow-up questions do you have?
 
 ```{r}
+#I am wondering how could I implement other categories in the plot
 ```
 
 
@@ -242,10 +245,6 @@ Try to replicate this using `ggplot()`. THINK:
 
 ![](https://mac-stat.github.io/images/112/scatterplot_demo.png){width="50%"}
 
-```{r}
-```
-
-
 ### Exercise 2: 2 Quantitiative Variables {.unnumbered}
 
 Run each chunk below to build up a a scatterplot of `repub_pct_20` vs `repub_pct_16` with different *glyphs* representing each county. Address or think about any prompts in the comments (`#`).
@@ -253,6 +252,7 @@ Run each chunk below to build up a a scatterplot of `repub_pct_20` vs `repub_pct
 ```{r eval = FALSE}
 # Set up the plotting frame
 # How does this differ than the frame for our histogram of repub_pct_20 alone?
+It now has a y and an x-axis
 ggplot(elections, aes(y = repub_pct_20, x = repub_pct_16))
 ```
 

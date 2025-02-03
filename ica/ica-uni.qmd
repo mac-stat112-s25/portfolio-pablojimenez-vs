@@ -189,6 +189,7 @@ Let's dig into the `hikes` data, starting with the `elevation` and difficulty `r
 #| eval: true
 
 head(hikes)
+library(tidyverse)
 ```
 
 a.  What features would we like a visualization of the *categorical* difficulty `rating` variable to capture?
