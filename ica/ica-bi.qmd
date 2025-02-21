@@ -44,9 +44,11 @@ survey <- read.csv("https://hash-mac.github.io/stat112site-s25/data/survey.csv")
 
 # How many students have now filled out the survey?
 
+nrow(survey)
 
 # What type of variables do we have?
 
+str(survey)
 ```
 
 
@@ -63,10 +65,11 @@ Students were asked, in that moment, where they'd most like to spend time outsid
 
 ```{r}
 # Attach a package needed to use the ggplot function
-
+library(tidyverse)
 
 # Make a ggplot
-
+ggplot(survey, aes(x = hangout)) + 
+  geom_bar()
 ```
 
 ```{r echo=FALSE, message=FALSE}
@@ -79,6 +82,8 @@ library(tidyverse)
 Students were asked about their ideal outdoor temperature, in degrees Celsius. How did they answer? What was the typical response? What was the range in responses? Were there any outliers? Build and interpret 2 plots that help address these questions.
 
 ```{r}
+ggplot(survey, aes(x = fav_temp_c)) + 
+  geom_histogram(color = "white", binwidth = 5)
 ```
 
 
@@ -209,6 +214,8 @@ How many, or roughly what percent, of the 3000+ counties did the Republican cand
 -   Then discuss what follow-up questions you might have (and that our data might help us answer).
 
 ```{r}
+ggplot(elections, aes(x = winner_20)) + 
+  geom_bar()
 ```
 
 #### Part b {.unnumbered}
@@ -220,6 +227,8 @@ Notice that the distribution of Republican support from county to county is slig
 What follow-up questions do you have?
 
 ```{r}
+ggplot(elections, aes(x = repub_pct_20)) + 
+  geom_histogram(color = "white")
 ```
 
 
@@ -330,11 +339,13 @@ To examine how the 2020 results are related to some county demographics, constru
 ```{r}
 # Scatterplot of repub_pct_20 vs median_rent
 
-
+ggplot(elections, aes(y = repub_pct_20, x = median_rent)) +
+  geom_point() 
 
 # Scatterplot of repub_pct_20 vs median_age
 
-
+ggplot(elections, aes(y = repub_pct_20, x = median_age)) +
+  geom_point() 
 
 ```
 
@@ -373,6 +384,8 @@ Box plots are constructed from five numbers - the minimum, 25th percentile, medi
 
 Summarize what you've learned about the 2020 Republican county-level support within and between red/purple/blue states.
 
+There’s quite a bit of range in county-level R support within blue, purple, and red states. However, R support tends to be higher in red states and lower in blue states.
+
 
 ### Exercise 8: Quantitative vs Categorical -- Intuition Check {.unnumbered}
 
@@ -398,19 +411,21 @@ Work through the chunks below and address the comments therein.
 
 ```{r eval = FALSE}
 # Name two "bad" things about this plot
+# THe plots are on top of each other
+# The colors do not match
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_density()
 ```
 
 ```{r eval = FALSE}
-# What does scale_fill_manual do?
+# What does scale_fill_manual do? it defines colors to fill categories
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_density() +
   scale_fill_manual(values = c("blue", "purple", "red"))
 ```
 
 ```{r eval = FALSE}
-# What does alpha = 0.5 do?
+# What does alpha = 0.5 do? adds transparency
 # Play around with different values of alpha, between 0 and 1
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_density(alpha = 0.5) +
@@ -419,6 +434,7 @@ ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
 
 ```{r eval = FALSE}
 # What does facet_wrap do?!
+# separates the density plots into "facets" for each historical group
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_density() +
   scale_fill_manual(values = c("blue", "purple", "red")) +
@@ -428,6 +444,7 @@ ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
 ```{r eval = FALSE}
 # Let's try a similar grouping strategy with a histogram instead of density plot.
 # Why is this terrible?
+# Because you will mix groups 
 ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
   geom_histogram(color = "white") +
   scale_fill_manual(values = c("blue", "purple", "red"))
@@ -439,8 +456,14 @@ ggplot(elections, aes(x = repub_pct_20, fill = historical)) +
 We've now learned 3 (of many) ways to visualize the relationship between a quantitative and categorical variable: side-by-side violins, boxplots, and density plots.
 
 -   Which do you like best?
+Box plots
 -   What is one pro of density plots relative to boxplots?
+
+Doesn’t oversimplify the data / boil the data down to just 5 numbers.
+
 -   What is one con of density plots relative to boxplots?
+
+Boxplots can be easier to interpret
 
 
 ### Exercise 11: Categorical vs Categorical -- Intuition Check {.unnumbered}
@@ -506,9 +529,15 @@ ggplot(elections, aes(x = historical, fill = winner_20)) +
 
 Name one pro and one con of using the "proportional bar plot" instead of one of the other three options.
 
+One pro is that is easier to compare the relative outcomes in blue vs purple vs red states 
+
+One con is that you lose track of how many counties fall into blue vs purple vs red states
+
 #### Part b {.unnumbered}
 
 What's your favorite bar plot from part and why?
+
+I think a facet bar is quite an accurate way of representing data while giving it the emphasis that it deserves.
 
 
 ### Exercise 13: Practice (now or later) {.unnumbered}

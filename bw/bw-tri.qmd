@@ -3,3 +3,23 @@ title: "Trivariate Viz"
 ---
 
 Use this file to generate a professional looking **trivariate** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
+
+```{r}
+library(tidyverse)
+
+elections <- read.csv("https://mac-stat.github.io/data/election_2020_county.csv")
+
+ggplot(elections, aes(x = percent_hispanic, fill = winner_20)) +
+  geom_bar(position = "dodge", alpha = 0.7) + 
+  labs(
+    title = "2020 Election Winner by Percent Hispanic",
+    subtitle = "Counties in Alabama",  
+    x = "Percent Hispanic",
+    y = "Count of Counties",
+    fill = "2020 Winner",
+    caption = "Source: mac-stat.github.io/data/election_2020_county.csv"
+  ) +
+  scale_fill_manual(values = c("dem" = "lightblue", "repub" = "orange")) +
+  theme_minimal()
+
+```
