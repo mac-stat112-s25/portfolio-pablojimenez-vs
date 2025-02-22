@@ -3,3 +3,18 @@ title: "Quadvariate Viz"
 ---
 
 Use this file to generate a professional looking **quadvariate** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
+
+```{r}
+ggplot(elections, aes(x = per_capita_income, y = median_rent)) +
+  geom_point(aes(color = historical), alpha = 0.7) +  
+  labs(
+    title = "Per Capita Income agains Median Rent",
+    subtitle = "In Alabama Counties",
+    x = "Per Capita Income",
+    y = "Median Rent",
+    color = "Historical Context",
+    caption = "Source: mac-stat.github.io/data/election_2020_county.csv"
+  ) +
+  scale_color_manual(values = c("lightblue", "purple", "red")) +
+  theme_minimal() 
+```
