@@ -5,6 +5,7 @@ title: "Spatial Viz"
 Use this file for practice with the **spatial viz** in-class activity.  Refer to the class website for details.
 
 ---
+---
 title: "Spatial Viz"
 number-sections: true
 execute: 
@@ -100,33 +101,45 @@ The part of dataset codebook is below:
 What was the range and typical energy used each month, as measured by `therms`?
 How does this differ by address?
 
+The boxplot shows the distribution of energy usage through months per each address. Address 'b' generally shows more energy usage espcially in colder months.
+
 ```{r}
-ggplot(energy, aes(x = therms, fill = address)) + 
-  geom_density(alpha = 0.5)
+ggplot(energy, aes(x = factor(month), y = therms, fill = address)) +
+  geom_boxplot() +
+  labs(title = "Energy Use (Therms) by Month and Address",
+       x = "Month",
+       y = "Therms",
+       fill = "Address")
 ```
 
 ### Example 2 {.unnumbered}
 
 How did energy use (`therms`) change over time (`date`) at the two addresses?
 
-It seems that non renovated addresses use more energy 
+The plot shows the trend of energy usage through time in both addresses. We can see seasonal fluctuations, with higher use during winter months, and address 'b' is the one that uses more energy.
 
 ```{r}
-ggplot(energy, aes(x = date, y = therms, color = address)) + 
-  geom_point()
-
+ggplot(energy, aes(x = date, y = therms, color = address)) +
+  geom_line() +
+  labs(title = "Energy Use Over Time by Address",
+       x = "Date",
+       y = "Therms",
+       color = "Address")
 ```
 
 ### Example 3 {.unnumbered}
 
 How did the typical energy use (`therms`) at the two addresses change before and after they were `renovated`?
 
-The energy use increased after renovations in both addreses
+The plot says that energy has increased after renovation
 
 ```{r}
-ggplot(energy, aes(y = therms, x = renovated)) + 
-  geom_boxplot() + 
-  facet_wrap(~ address)
+ggplot(energy, aes(x = renovated, y = therms, fill = address)) +
+  geom_boxplot() +
+  labs(title = "Energy Use Before and After Renovation",
+       x = "Renovated",
+       y = "Therms",
+       fill = "Address")
 ```
 
 ### Example 4 {.unnumbered}
@@ -137,11 +150,16 @@ But also fishy.
 Take 5 minutes (in your groups) to try and explain what's going on here.
 Think: What *confounding* or *lurking* or *omitted* variable related to energy usage are we ignoring here?  Try to make some plots to prove your point.
 
+Renovations happened during warmer months, when energy usage is naturally lower. 
+
 ```{r}
-ggplot(energy, aes(y = therms, x = hdd, color = renovated)) + 
-  geom_point(alpha = 0.5) + 
-  geom_smooth(method = "lm", se = FALSE) + 
-  facet_wrap(~ address)
+ggplot(energy, aes(x = hdd, y = therms, color = renovated)) +
+  geom_point() +
+  facet_wrap(~ address) +
+  labs(title = "Energy Use vs. Heating Degree Days",
+       x = "Heating Degree Days (HDD)",
+       y = "Therms",
+       color = "Renovated")
 ```
 
 ### Example 5 {.unnumbered}
@@ -155,7 +173,7 @@ It seemed that:
 BUT this was explained by a *confounding* or *omitted* or *lurking* variable: ???
 
 -   After renovation...
--   it was colder...
+-   ???...
 -   which then leads to higher energy use.
 
 Thus, *when controlling for* ???,
@@ -240,7 +258,7 @@ Let's load [the data](../data/our_fave_places.csv) and map it!
 ```{r}
 #| echo: false
 
-fave_places <- read.csv("../data/our_fave_places.csv")
+fave_places <- read.csv("/data/our_fave_places.csv")
 
 # Check it out
 head(fave_places)
@@ -382,6 +400,8 @@ It's pretty cool that the plots we already know can provide some spatial context
 But what *don't* you like about this plot?
 
 ```{r}
+ggplot(starbucks, aes(y = Latitude, x = Longitude)) + 
+  geom_point(size = 0.5)
 ```
 
 ### Exercise 4: Adding a country-level background {.unnumbered}
@@ -435,6 +455,8 @@ ggplot(world_boundaries) +
 #### Part c {.unnumbered}
 
 Summarize what you learned about Starbucks from this map.
+
+Starbucks is mainly in first world countries 
 
 ### Exercise 5: Zooming in on some countries {.unnumbered}
 
@@ -530,16 +552,16 @@ Adjust the code below to make the plot!
 Remove the `#` to run it.
 
 ```{r}
-# ggplot(___) + 
-#   geom___() + 
-#   geom___(
-#     data = ___,
-#     aes(x = ___, y = ___),
-#     alpha = 0.7,
-#     size = 0.2, 
-#     color = 'darkgreen'
-#   ) + 
-#   theme_map()
+ ggplot(midwest_boundaries) + 
+   geom_sf() + 
+   geom_point(
+     data = starbucks_midwest,
+     aes(x = Longitude, y = Latitude),
+     alpha = 0.7,
+     size = 0.2, 
+     color = 'darkgreen'
+   ) + 
+   theme_map()
 ```
 
 ### Exercise 7: Contour maps {.unnumbered}
@@ -1017,5 +1039,3 @@ ggplot(elections_by_counties, aes(map_id = county_fips, fill = median_age)) +
   coord_equal() + 
   scale_fill_gradientn(name = "median age", colors = terrain.colors(10))
 ```
-
-</details>
