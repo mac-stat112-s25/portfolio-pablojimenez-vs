@@ -1,0 +1,38 @@
+---
+title: "Exam 1"
+format: html
+---
+
+Loading the packages to use them later
+
+```{R}
+library("tidytuesdayR")
+library("tidyverse")
+```
+
+Storing the and organizing the data without redundances in the columns titles
+
+```{R}
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food_consumption
+```
+
+Distinguishing the amount of food types within the food_category column
+
+```{R}
+n_distinct(fc$`food_category`)
+
+n_distinct(fc$`country`)
+```
+
+Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis
+
+```{R}
+
+ggplot(fc, aes(x = food_category, y = consumption)) + 
+  geom_col() +  
+  labs(title = "Total Consumption by Food Category",  
+       x = "Food Category", 
+       y = "Total Consumption") +  
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
