@@ -295,8 +295,6 @@ There's no end to the number and type of visualizations you *could* make. And it
 
 ## Exercises (required)
 
-{{< include activity-instructions.qmd >}}
-
 ### The story {-}
 
 Though far from a perfect assessment of academic preparedness, SAT scores have historically been used as one measurement of a state's education system. The `education` dataset contains various education variables for each state:

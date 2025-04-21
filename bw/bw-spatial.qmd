@@ -6,11 +6,22 @@ name: Pablo Jiménez
 Use this file to generate a professional looking **spatial** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
 
 ```{r}
+library(tidyverse)
 
-library(ggplot2)
+```
+
+```{r}
 library(ggmap) 
+library(ggplot2)
 library(dplyr)
 library(leaflet)
+library(sf)
+library(rnaturalearth)
+library(mosaic)
+library(socviz)
+
+data(county_map) 
+states_map <- map_data("state")
 
 elections_by_state <-  read.csv("https://mac-stat.github.io/data/election_2020_by_state.csv")
 elections_by_counties <- read.csv("https://mac-stat.github.io/data/election_2020_county.csv")
