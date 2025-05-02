@@ -64,6 +64,9 @@ Construct a plot that allows us to examine how the relationship between body mas
 :::
 
 ```{r}
+ggplot(penguins, aes(y = body_mass_g, x = bill_length_mm, color = species)) + 
+  geom_point() + 
+  facet_wrap(~ sex)
 ```
 
 
@@ -77,30 +80,40 @@ Use the 6 wrangling verbs to address each task in the code chunk below.  You can
 ```{r}
 # Get data on only Adelie penguins that weigh more than 4700g
 
+penguins |> 
+  filter(species == "Adelie", body_mass_g > 4700)
 
 # Get data on penguin body mass only
 # Show just the first 6 rows
 
+penguins |> 
+  select(body_mass_g) |> 
+  head()
 
 # Sort the penguins from smallest to largest body mass
 # Show just the first 6 rows
 
-
+penguins |> 
+  arrange(body_mass_g) |> 
+  head()
 
 # Calculate the average body mass across all penguins
 # Note: na.rm = TRUE removes the NAs from the calculation
 
-
+penguins |> 
+  summarize(mean = mean(body_mass_g, na.rm = TRUE))
 
 # Calculate the average body mass by species
-
-
+penguins |>
+ group_by(species) |> 
+  summarize(mean = mean(body_mass_g, na.rm = TRUE))
 
 # Create a new column that records body mass in kilograms, not grams
 # NOTE: there are 1000 g in 1 kg
 # Show just the first 6 rows
-
-
+penguins |>
+  mutate(body_mass_kg = body_mass_g/1000) |> 
+  head()
 ```
 
 
@@ -113,7 +126,9 @@ How many penguins of each species do we have? Create a viz that addresses this q
 
 
 ```{r}
-ggplot(penguins, aes(x = species))
+ggplot(penguins, aes(x = species)) +
+  geom_bar()
+
 ```
 
 ::: {.callout-warning title="Check Understanding"}
@@ -125,6 +140,9 @@ HINT: `n()` calculates group size.
 :::
 
 ```{r}
+penguins |> 
+  group_by(species) |> 
+  summarize(n())
 ```
 
 
@@ -157,13 +175,20 @@ Let's practice *combining* some verbs. For each task:
 ```{r}
 # Sort Gentoo penguins from biggest to smallest with respect to their 
 # bill length in cm (there are 10 mm in a cm)
-
+penguins |> 
+  filter(species == "Gentoo") |> 
+  mutate(bill_length_cm = bill_length_mm / 10) |> 
+  arrange(desc(bill_length_cm))
 ```
 
 ```{r}
 # Sort the species from smallest to biggest with respect to their 
 # average bill length in cm
-
+penguins |>
+ mutate(bill_length_cm = bill_length_mm / 10) |> 
+  group_by(species) |> 
+  summarize(mean_bill_length = mean(bill_length_cm, na.rm = TRUE)) |> 
+  arrange(desc(mean_bill_length))
 ```
 
 
@@ -214,17 +239,17 @@ To comment/uncomment several lines of code at once, highlight them then click <k
 ```{r}
 # Create a dataset with just Adelie and Chinstrap using %in%
 # Pipe this into `count(species)` to confirm that you only have these 2 species
-# ___ |> 
-#   filter(___) |> 
-#   count(species)
+penguins |>
+  filter(species %in% c("Adelie", "Chinstrap")) |>
+  count(species)
 ```
 
 ```{r}
 # Create a dataset with just Adelie and Chinstrap using !=
 # Pipe this into `count(species)` to confirm that you only have these 2 species
-# ___ |> 
-#   filter(___) |> 
-#   count(species)
+penguins |>
+  filter(species != "Gentoo") |>
+  count(species)
 ```
 
 #### Part b {.unnumbered}
@@ -290,10 +315,7 @@ nrow(penguins)
 
 Explain why we should only use `na.omit()` in extreme circumstances.
 
-\
-\
-\
-\
+Because we don't need that missing information
 
 ### Exercise 2: More Selecting {.unnumbered}
 
@@ -312,24 +334,32 @@ names(penguins)
 ```{r}
 # Use a shortcut to keep everything but the year and island variables
 
+penguins |> 
+  select(-year, -island)
 
 ```
 
 ```{r}
 # Use a shortcut to keep only species and the penguin characteristics measured in mm
 
+penguins |> 
+  select(species, ends_with("mm"))
 
 ```
 
 ```{r}
 # Use a shortcut to keep only species and bill-related measurements
 
+penguins |> 
+  select(species, starts_with("bill"))
 
 ```
 
 ```{r}
 # Use a shortcut to keep only species and the length-related characteristics
 
+penguins |> 
+  select(species, contains("length"))
 
 ```
 
@@ -346,19 +376,20 @@ We've done examples where we need to `filter()` by more than one variable, or `s
 # Change this code to sort the penguins by species, and then island name
 # NOTE: The first row should be an Adelie penguin living on Biscoe island
 penguins |> 
-  arrange(species)
+  arrange(species, island) |> 
+  head()
 ```
 
 ```{r}
 # Change this code to count the number of male/female penguins observed for each species
 penguins |> 
-  count(species)
+  count(species,sex)
 ```
 
 ```{r}
 # Change this code to calculate the average body mass by species and sex
 penguins |> 
-  group_by(species) |> 
+  group_by(species,sex) |> 
   summarize(mean = mean(body_mass_g, na.rm = TRUE))
 
 ```
@@ -447,13 +478,23 @@ head(Birthdays)
 ```{r}
 # How many days of data do we have for each state?
 
+library(dplyr)
+
+birthdays_by_state <- Birthdays %>%
+  group_by(state) %>%
+  summarise(n_days = n_distinct(date))
+
 
 # How many total births were there in this time period?
 
+total_births <- sum(Birthdays$births)
 
 # How many total births were there per state in this time period, sorted from low to high?
 
-
+total_births_by_state <- Birthdays %>%
+  group_by(state) %>%
+  summarise(total_births = sum(births)) %>%
+  arrange(total_births)
 ```
 
 
@@ -463,11 +504,20 @@ head(Birthdays)
 Create a new dataset named `daily_births` that includes the total number of births per day (across all states) and the corresponding day of the week, eg, Mon. NOTE: Name the column with total births so that it's easier to wrangle and plot.
 
 ```{r}
+daily_births <- Birthdays %>%
+  group_by(date, wday) %>%
+  summarise(total_births_on_day = sum(births))
 ```
 
 Using this data, construct a plot of `births` over time, indicating the day of week.
 
 ```{r}
+ggplot(daily_births, aes(x = date, y = total_births_on_day, color = wday)) +
+  geom_line() +
+  labs(x = "Date",
+       y = "Total Births",
+       color = "Day of Week") +
+  theme_minimal()
 ```
 
 
@@ -488,6 +538,22 @@ penguins |>
 Calculate the total number of births in each month and year, eg, Jan 1969, Feb 1969, .... Label month by names not numbers, eg, Jan not 1. Then, plot the births by month and comment on what you learn.
 
 ```{r}
+
+monthly_births <- Birthdays %>%
+  mutate(month_name = format(date, "%b")) %>%
+  group_by(year, month_name) %>%
+  summarise(total_births = sum(births))
+
+ggplot(monthly_births, aes(x = factor(month_name, levels = month.abb), y = total_births, group = year, color = factor(year))) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Month",
+       y = "Total Births",
+       color = "Year") +
+  theme_minimal()
+
+#There is a clear trend on years where there are months with more births than others.
+
 ```
 
 #### Part b {.unnumbered}
@@ -495,6 +561,26 @@ Calculate the total number of births in each month and year, eg, Jan 1969, Feb 1
 In 1988, calculate the total number of births per week in each state. Get rid of week "53", which isn't a complete week! Then, make a line plot of births by week for each state and comment on what you learn. For example, do you notice any seasonal trends? Are these the same in every state? Any outliers?
 
 ```{r}
+
+births_1988_by_week_state <- Birthdays %>%
+  filter(year == 1988) %>%
+  mutate(week = strftime(date, format = "%W")) %>%
+  filter(week != "53") %>%
+  group_by(state, week) %>%
+  summarise(total_births = sum(births))
+
+print(births_1988_by_week_state)
+
+ggplot(births_1988_by_week_state, aes(x = as.integer(week), y = total_births, color = state)) +
+  geom_line() +
+  labs(x = "Week of the Year",
+       y = "Total Births",
+       color = "State") +
+  theme_minimal()
+
+#There are higher births areound week 35 and 40 based on the graph and the states variate on peak from region to region.
+
+
 ```
 
 #### Part c {.unnumbered}
@@ -502,6 +588,24 @@ In 1988, calculate the total number of births per week in each state. Get rid of
 Repeat the above for just Minnesota (MN) and Louisiana (LA). MN has one of the coldest climates and LA has one of the warmest. How do their seasonal trends compare? Do you think these trends are similar in other colder and warmer states? Try it!
 
 ```{r}
+
+births_1988_by_week_MN_LA <- Birthdays %>%
+  filter(year == 1988, state %in% c("MN", "LA")) %>%
+  mutate(week = strftime(date, format = "%W")) %>%
+  filter(week != "53") %>%
+  group_by(state, week) %>%
+  summarise(total_births = sum(births))
+
+print(births_1988_by_week_MN_LA)
+
+ggplot(births_1988_by_week_MN_LA, aes(x = as.integer(week), y = total_births, color = state)) +
+  geom_line() +
+  labs(x = "Week of the Year",
+       y = "Total Births",
+       color = "State") +
+  theme_minimal()
+
+#There are more births in Los Angeles than in Minnesota could be due to the weather
 ```
 
 
@@ -513,11 +617,31 @@ Repeat the above for just Minnesota (MN) and Louisiana (LA). MN has one of the c
 Create a dataset with only births in Massachusetts (MA) in 1979 and sort the days from those with the most births to those with the fewest.
 
 ```{r}
+
+massachusetts_births_1979_sorted <- Birthdays %>%
+  filter(state == "MA", year == 1979) %>%
+  arrange(desc(births))
+
+print(head(massachusetts_births_1979_sorted))
+
 ```
 
 #### Part b {.unnumbered}
 
 Make a table showing the five states with the most births between September 9, 1979 and September 12, 1979, including the 9th and 12th. Arrange the table in descending order of births.
+
+```{r}
+library(dplyr)
+
+top_birth_states_sept_1979 <- Birthdays %>%
+  filter(date >= as.Date("1979-09-09") & date <= as.Date("1979-09-12")) %>%
+  group_by(state) %>%
+  summarise(total_births = sum(births)) %>%
+  arrange(desc(total_births)) %>%
+  head(5)
+
+print(top_birth_states_sept_1979)
+```
 
 
 ## Solutions
