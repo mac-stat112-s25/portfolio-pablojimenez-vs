@@ -1,0 +1,57 @@
+---
+title: "Solo Project"
+format: html
+---
+# This Map show Minnesota and the levels of Dissolved oxygen around its lakes 
+```{r}
+library(readxl)
+library(ggplot2)
+library(ggmap)
+library(dplyr)
+
+Lake_Profile_Data_R_practice <- read_excel("~/Downloads/Lake Profile Data -R practice.xlsx")
+
+lake_locations <- data.frame(
+  Site = c("Cedar", "Colby", "Como", "Crosby", "German", "Isles", "Lake of the Isles", "McCarrons", "Peltier", "Ryan", "Snelling", "Square", "West Jefferson"),
+  Latitude = c(44.978, 45.062, 44.983, 44.968, 45.067, 44.958, 44.958, 45.018, 45.053, 44.988, 44.948, 45.009, 45.035),
+  Longitude = c(-93.182, -93.112, -93.168, -93.133, -93.068, -93.303, -93.303, -93.053, -93.088, -93.233, -93.013, -93.258, -93.038)
+)
+
+merged_data <- left_join(Lake_Profile_Data_R_practice, lake_locations, by = "Site")
+
+```
+
+#This map helps visualize a general water quality across some Minnesota lakes.
+
+```{r}
+library(ggplot2)
+library(dplyr)
+library(maps)
+
+average_do_by_lake <- merged_data %>%
+  group_by(Site, Latitude, Longitude) %>%
+  summarise(Average_DO = mean(`DO(mg/L)`, na.rm = TRUE), .groups = "drop")
+
+average_do_by_lake_cleaned <- average_do_by_lake %>%
+  filter(!is.na(Latitude) & !is.na(Longitude))
+
+minnesota_states_map <- map_data("state", region = "minnesota")
+
+do_map_minnesota <- ggplot() +
+  geom_polygon(data = minnesota_states_map, aes(x = long, y = lat, group = group), fill = "lightgray", color = "black") +
+  geom_point(data = average_do_by_lake_cleaned, aes(x = Longitude, y = Latitude, color = Average_DO), size = 3) +
+  geom_text(data = average_do_by_lake_cleaned, aes(x = Longitude, y = Latitude, label = Site),
+            nudge_x = 0.05, nudge_y = 0.05, size = 3, check_overlap = TRUE) +
+  scale_color_viridis_c(option = "plasma", name = "Average DO (mg/L)") +
+  labs(
+    title = "Average Dissolved Oxygen Levels in Minnesota Lakes",
+    caption = "Data from Lake Profile Dataset"
+  ) +
+  coord_sf(xlim = range(average_do_by_lake_cleaned$Longitude) + c(-0.5, 0.5),
+             ylim = range(average_do_by_lake_cleaned$Latitude) + c(-0.3, 0.3),
+             crs = 4326, expand = FALSE) +
+  theme_minimal()
+
+print(do_map_minnesota)
+```
+

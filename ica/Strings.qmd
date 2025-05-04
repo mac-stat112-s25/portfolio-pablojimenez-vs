@@ -1,5 +1,5 @@
 ---
-title: "Joining"
+title: "Strings"
 number-sections: true
 execute: 
   warning: false
@@ -10,566 +10,563 @@ code-fold: false
 ---
 
 
+
 ::: {.callout-caution title="Learning Goals"}
-
-Understand how to *join* different datasets:
-
-- mutating joins: `left_join()`, `inner_join()` and `full_join()` 
-- filtering joins: `semi_join()`, `anti_join()`
-
+-   Learn some fundamentals of working with strings of text data.
+-   Learn functions to search and replace, detect patterns, locate patterns, extract patterns, and separate text with the `stringr` package.
 :::
 
 ::: {.callout-note title="Additional Resources"}
-
 For more information about the topics covered in this chapter, refer to the resources below:
 
--   [Demonstration of joining data (YouTube)](https://www.youtube.com/watch?v=MJDHRtwZhoM&feature=youtu.be) by Lisa Lendway
--   [Joings](https://r4ds.hadley.nz/joins) by Wickham, Çetinkaya-Rundel, & Grolemund
--   [Data wrangling on multiple tables](https://mdsr-book.github.io/mdsr2e/ch-join.html) by Baumer, Kaplan, and Horton
-
+-   [Working with strings (YouTube)](https://www.youtube.com/watch?v=__pJ_u94LZg&t=52s) by Lisa Lendway
+-   [strings cheat sheet (pdf)](https://raw.githubusercontent.com/rstudio/cheatsheets/main/strings.pdf)
+-   [Strings (html)](https://r4ds.hadley.nz/strings.html) by Wickham, Çetinkaya-Rundel, & Grolemund
+-   [Regular expressions (html)](https://mdsr-book.github.io/mdsr2e/ch-text.html#regular-expressions-using-macbeth) by Baumer, Kaplan, and Horton
+-   [RegExplain RStudio addin tool (html)](https://www.garrickadenbuie.com/project/regexplain/) (Garrick Aden-Buie)
+-   [regexr exploration tool (html)](https://regexr.com/)
 :::
+
 
 
 
 ## Review
 
-**Where are we? Data preparation**
+**WHERE ARE WE?**
+
+We're in the *last day* of our "data preparation" unit:
 
 ![](https://mac-stat.github.io/images/112/legos.png)
 
-Thus far, we've learned how to:
+## Strings
 
--   `arrange()` our data in a meaningful order
--   subset the data to only `filter()` the rows and `select()` the columns of interest
--   `mutate()` existing variables and define new variables
--   `summarize()` various aspects of a variable, both overall and by group (`group_by()`)
--   reshape our data to fit the task at hand (`pivot_longer()`, `pivot_wider()`)
+In the previous class, we started discussing some considerations in working with special types of "categorical" variables: *characters* and *factors* which are:
+
+1.  **Converting characters to factors (and factors to meaningful factors)**--last time\
+    When categorical information is stored as a *character* variable, the categories of interest might not be labeled or ordered in a meaningful way. We can fix that!
+
+2.  **Strings**--today!\
+    When working with character strings, we might want to detect, replace, or extract certain *patterns*. For example, recall our data on `courses`:
+
+```{r echo = FALSE}
+courses_old <- read.csv("https://mac-stat.github.io/data/courses.csv")
+
+# Check out the data
+head(courses_old)
+
+# Check out the structure of each variable
+# Many of these are characters!
+str(courses_old)
+```
+
+Focusing on just the `sem` character variable, we might want to...
+
+- change `FA` to `fall_` and `SP` to `spring_`
+- keep only courses taught in fall
+- split the variable into 2 new variables: `semester` (`FA` or `SP`) and `year`
 
 
+3.  Much more!--maybe in your projects or COMP/STAT 212\
+    There are a lot of ways to process character variables. For example, we might have a variable that records the text for a sample of news articles. We might want to analyze things like the articles' *sentiments*, word counts, typical word lengths, most common words, etc.
 
-## Motivation
+### Essential Functions {-}
 
-In practice, we often have to collect and combine data from various sources in order to address our research questions. Example:
+The `stringr` package within `tidyverse` contains lots of functions to help process strings. We'll focus on the most common. Letting `x` be a string variable...
 
--   What are the best predictors of album sales?\
-    Combine:
-    -   Spotify data on individual songs (eg: popularity, genre, characteristics)
-    -   sales data on individual songs
--   What are the best predictors of flight delays?\
-    Combine:
-    -   data on individual flights including airline, starting airport, and destination airport
-    -   data on different airlines (eg: ticket prices, reliability, etc)
-    -   data on different airports (eg: location, reliability, etc)
-
+| function            | arguments                 | returns           |
+|:--------------------|:--------------------------|:------------------|
+| `str_replace()`     | `x, pattern, replacement` | a modified string |
+| `str_replace_all()` | `x, pattern, replacement` | a modified string |
+| `str_to_lower()`    | `x`                       | a modified string |
+| `str_sub()`         | `x, start, end`           | a modified string |
+| `str_length()`      | `x`                       | a number          |
+| `str_detect()`      | `x, pattern`              | TRUE/FALSE        |
 
 ### Example 1 {-}
 
-Consider the following (made up) data on students and course enrollments:
-
-```{r}
-students_1 <- data.frame(
-  student = c("A", "B", "C"),
-  class = c("STAT 101", "GEOL 101", "ANTH 101")
-)
-
-# Check it out
-students_1
-```
-
-```{r}
-enrollments_1 <- data.frame(
-  class = c("STAT 101", "ART 101", "GEOL 101"),
-  enrollment = c(18, 17, 24)
-)
-
-# Check it out
-enrollments_1
-```
-
-Our goal is to *combine* or *join* these datasets into one. For reference, here they are side by side:
-
-![](https://mac-stat.github.io/images/112/join_1.png){width="50%"}
-
-First, consider the following:
-
--   What variable or **key** do these datasets have in common? Thus by what information can we *match* the observations in these datasets?
-
--   Relative to this key, what info does `students_1` have that `enrollments_1` doesn't?
-
--   Relative to this key, what info does `enrollments_1` have that `students_1` doesn't?
-
-
-## Mutating Joins: `left`, `inner`, `full`
-
-### Example 2 {-}
-
-There are various ways to join these datasets:
-
-![](https://mac-stat.github.io/images/112/join_1.png){width="50%"}
-
-Let's learn by doing. First, try the `left_join()` function:
+Consider the following data with string variables :
 
 ```{r}
 library(tidyverse)
-students_1 |> 
-  left_join(enrollments_1)
+
+classes <- data.frame(
+  sem        = c("SP2023", "FA2023", "SP2024"),
+  area       = c("History", "Math", "Anthro"),
+  enroll     = c("30 - people", "20 - people", "25 - people"),
+  instructor = c("Ernesto Capello", "Lori Ziegelmeier", "Arjun Guneratne")
+)
+
+classes
 ```
 
--   What did this do? What are the roles of `students_1` (the *left* table) and `enrollments_1` (the *right* table)?
-
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try.
+Using only your intuition, use our `str_` functions to complete the following. NOTE: You might be able to use other wrangling verbs in some cases, but focus on the new functions here.
 
 ```{r}
+# Define a new variable "num" that adds up the number of characters in the area label
+
+classes |> 
+  mutate(num = str_length(area))
+
 ```
-
-### Example 3 {-}
-
-Next, explore how our datasets are joined using `inner_join()`:
-
-![](https://mac-stat.github.io/images/112/join_1.png){width="50%"}
 
 ```{r}
-students_1 |> 
-  inner_join(enrollments_1)
+# Change the areas to "history", "math", "anthro" instead of "History", "Math", "Anthro"
+
+classes |> 
+  mutate(area = str_to_lower(area))
+
 ```
-
--   What did this do? What are the roles of `students_1` (the *left* table) and `enrollments_1` (the *right* table)?
-
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try.
 
 ```{r}
+# Create a variable that id's which courses were taught in spring
+
+classes |> 
+  mutate(spring = str_detect(sem, "SP"))
+
 ```
-
-### Example 4 {-}
-
-Next, explore how our datasets are joined using `full_join()`:
-
-![](https://mac-stat.github.io/images/112/join_1.png){width="50%"}
 
 ```{r}
-students_1 |> 
-  full_join(enrollments_1)
+# Change the semester labels to "fall2023", "spring2024", "spring2023"
+
+classes |> 
+  mutate(sem = str_replace(sem, "SP", "spring")) |> 
+  mutate(sem = str_replace(sem, "FA", "fall"))
+
 ```
-
--   What did this do? What are the roles of `students_1` (the *left* table) and `enrollments_1` (the *right* table)?
-
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try.
 
 ```{r}
+# In the enroll variable, change all e's to 3's (just because?)
+
+classes |> 
+  mutate(enroll = str_replace_all(enroll, "e", "3"))
+
 ```
-
-### Summary 
-
-Mutating joins add new variables (columns) to the left data table from matching observations in the right table:
-
-`left_data |> mutating_join(right_data)`
-
-The most common mutating joins are:
-
--   `left_join()`\
-    Keeps *all* observations from the left, but discards any observations in the right that do not have a match in the left.[^11-joining-data-1]
-
--   `inner_join()`\
-    Keeps *only* the observations from the left with a match in the right.
-
--   `full_join()`\
-    Keeps *all* observations from the left *and* the right. (This is less common than `left_join()` and `inner_join()`).
-
-[^11-joining-data-1]: There is also a `right_join()` that adds variables in the reverse direction from the left table to the right table, but we do not really need it as we can always switch the roles of the two tables.︎
-
-NOTE: When an observation in the left table has *multiple* matches in the right table, these mutating joins produce a *separate* observation in the new table for each match.
-
-## Filtering Joins: `semi`, `anti`
-
-*Mutating* joins *combine* information, thus increase the number of columns in a dataset (like `mutate()`). *Filtering* joins keep only certain observations in one dataset (like `filter()`), not based on rules related to any variables in the dataset, but on the observations that exist in another dataset. This is useful when we merely care about the membership or non-membership of an observation in the other dataset, not the raw data itself.
-
-### Example 5 {-}
-
-In our example data, suppose `enrollments_1` only included courses being taught in the Theater building:
-
-![](https://mac-stat.github.io/images/112/join_1.png){width="50%"}
 
 ```{r}
-students_1 |> 
-  semi_join(enrollments_1)
+# Use sem to create 2 new variables, one with only the semester (SP/FA) and 1 with the year
+
+classes |> 
+  mutate(semester = str_sub(sem, 1, 2),
+         year = str_sub(sem, 3, 6))
+
 ```
 
--   What did this do? What info would it give us?
+### Summary {-}
 
--   How does `semi_join()` differ from `inner_join()`?
+Here's what we learned about each function:
 
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try.
+-   `str_replace(x, pattern, replacement)` finds the *first* part of `x` that matches the `pattern` and replaces it with `replacement`
+
+-   `str_replace_all(x, pattern, replacement)` finds *all* instances in `x` that matches the `pattern` and replaces it with `replacement`
+
+-   `str_to_lower(x)` converts all upper case letters in `x` to lower case
+
+-   `str_sub(x, start, end)` only keeps a subset of characters in `x`, from `start` (a number indexing the first letter to keep) to `end` (a number indexing the last letter to keep)
+
+-   `str_length(x)` records the number of characters in `x`
+
+-   `str_detect(x, pattern)` is TRUE if `x` contains the given `pattern` and FALSE otherwise
+
+### Example 2
+
+Suppose we *only* want the spring courses:
 
 ```{r}
+# How can we do this after mutating?
+classes |> 
+  mutate(spring = str_detect(sem, "SP"))
 ```
-
-### Example 6 {-}
-
-Let's try another filtering join for our example data:
-
-![](https://mac-stat.github.io/images/112/join_1.png){width="50%"}
 
 ```{r}
-students_1 |> 
-  anti_join(enrollments_1)
+# We don't have to mutate first!
+classes |> 
+  filter(str_detect(sem, "SP"))
 ```
-
--   What did this do? What info would it give us?
-
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try.
 
 ```{r}
+# Yet another way
+classes |> 
+  filter(!str_detect(sem, "FA"))
 ```
 
+### Example 3
 
-### Summary
+Suppose we wanted to get separate columns for the first and last names of each course instructor in `classes`. Try doing this using `str_sub()`. But don't try too long! Explain what trouble you ran into.
 
-Filtering joins keep specific observations from the left table based on whether they match an observation in the right table.
+```{r}
+# Yet another way
+# classes |> 
+#  filter(str_sub(instructor))
+```
 
--   `semi_join()`\
-    Discards any observations in the left table that *do not* have a match in the right table. If there are multiple matches of right cases to a left case, it keeps just one copy of the left case.
+I think I still need to figure out how does str_sub entirely works
+### Example 4
 
--   `anti_join()`\
-    Discards any observations in the left table that *do* have a match in the right table.
+In general, when we want to split a column into 2+ new columns, we can often use `separate()`:
 
+```{r}
+classes |> 
+  separate(instructor, c("first", "last"), sep = " ")
+```
 
-## Summary of All Joins
+```{r}
+# Sometimes the function can "intuit" how we want to separate the variable
+classes |> 
+  separate(instructor, c("first", "last"))
+```
 
-![](https://mac-stat.github.io/images/112/join_summary.png)
+a.  Separate enroll into 2 separate columns: `students` and `people`. (These columns don't make sense this is just practice).
+
+```{r}
+# classes |> 
+#   separate(___, c(___, ___), sep = "___")
+```
+
+b.  We separated `sem` into semester and year above using `str_sub()`. Why would this be hard using `separate()`?
+
+Because it lacks a consistent single character delimeter to split on
+
+c.  When we want to split a column into 2+ new columns (or do other types of string processing), but there's no consistent pattern by which to do this, we can use *regular expressions* (an optional topic):
+
+Separate() is a more complex way to split strings when fixed positions are not enough. they basically define the split on the context of the string.
+
+```{r}
+# (?<=[SP|FA]): any character *before* the split point is a "SP" or "FA"
+# (?=2): the first character *after* the split point is a 2
+classes |> 
+  separate(sem, 
+          c("semester", "year"),
+          "(?<=[SP|FA])(?=2)")
+```
+
+```{r}
+# More general:
+# (?<=[a-zA-Z]): any character *before* the split point is a lower or upper case letter
+# (?=[0-9]): the first character *after* the split point is number
+classes |> 
+  separate(sem, 
+          c("semester", "year"),
+          "(?<=[A-Z])(?=[0-9])")
+```
 
 
 
 ## Exercises
 
-{{< include activity-instructions.qmd >}}
+### Exercise 1: Time slots {.unnumbered}
 
-### Exercise 1: Where are my keys? {.unnumbered}
+The `courses` data includes *actual* data scraped from Mac's [class schedule](https://macadmsys.macalester.edu/macssb/customPage/page/classSchedule). (Thanks to Prof Leslie Myint for the scraping code!!)
 
-#### Part a {.unnumbered}
-
-Define two new datasets, with different students and courses:
+If you want to learn how to scrape data, take COMP/STAT 212, Intermediate Data Science! NOTE: For simplicity, I removed classes that had "TBA" for the `days`.
 
 ```{r}
-students_2 <- data.frame(
-  student = c("D", "E", "F"),
-  class = c("COMP 101", "BIOL 101", "POLI 101")
-)
+courses <- read.csv("https://mac-stat.github.io/data/registrar.csv")
 
 # Check it out
-students_2
-
-enrollments_2 <- data.frame(
-  course = c("ART 101", "BIOL 101", "COMP 101"),
-  enrollment = c(18, 20, 19)
-)
-
-# Check it out
-enrollments_2
-```
-
-To connect the course enrollments to the students' courses, try do a `left_join()`. You get an error! Identify the problem by reviewing the error message and the datasets we're trying to join.
-
-```{r eval = FALSE}
-# eval = FALSE: don't evaluate this chunk when knitting. it produces an error.
-students_2 |> 
-  left_join(enrollments_2)
-```
-
-#### Part b {.unnumbered}
-
-The problem is that course name, the **key** or variable that links these two datasets, is labeled differently: `class` in the `students_2` data and `course` in the `enrollments_2` data. Thus we have to specify these keys in our code:
-
-```{r}
-students_2 |> 
-  left_join(enrollments_2, join_by(class == course))
-```
-
-```{r}
-#| eval: false  # keep this false since it will produce an error
-
-# The order of the keys is important:
-# join_by("left data key" == "right data key")
-# The order is mixed up here, thus we get an error:
-students_2 |> 
-  left_join(enrollments_2, join_by(course == class))
-```
-
-#### Part c {.unnumbered}
-
-Define another set of fake data which adds grade information:
-
-```{r}
-# Add student grades in each course
-students_3 <- data.frame(
-  student = c("Y", "Y", "Z", "Z"),
-  class = c("COMP 101", "BIOL 101", "POLI 101", "COMP 101"),
-  grade = c("B", "S", "C", "A")
-)
-
-# Check it out
-students_3
-
-# Add average grades in each course
-enrollments_3 <- data.frame(
-  class = c("ART 101", "BIOL 101","COMP 101"),
-  grade = c("B", "A", "A-"),
-  enrollment = c(20, 18, 19)
-)
-
-# Check it out
-enrollments_3
-```
-
-Try doing a `left_join()` to link the students' classes to their enrollment info. Did this work? Try and figure out the culprit by examining the output.
-
-```{r}
-students_3 |> 
-  left_join(enrollments_3)
-```
-
-#### Part d {.unnumbered}
-
-The issue here is that our datasets have *2* column names in common: `class` and `grade`. BUT `grade` is measuring 2 different things here: individual student grades in `students_3` and average student grades in `enrollments_3`. Thus it doesn't make sense to try to join the datasets with respect to this variable. We can again solve this by specifying that we want to join the datasets using the `class` variable as a *key*. What are `grade.x` and `grade.y`?
-
-```{r}
-students_3 |> 
-  left_join(enrollments_3, join_by(class == class))
-```
-
-
-### Exercise 2: More small practice {.unnumbered}
-
-Before applying these ideas to bigger datasets, let's practice identifying which join is appropriate in different scenarios. Define the following fake data on `voters` (people who *have* voted) and `contact` info for voting age adults (people who *could* vote):
-
-```{r}
-# People who have voted
-voters <- data.frame(
-  id = c("A", "D", "E", "F", "G"),
-  times_voted = c(2, 4, 17, 6, 20)
-)
-
-voters
-
-# Contact info for voting age adults
-contact <- data.frame(
-  name = c("A", "B", "C", "D"),
-  address = c("summit", "grand", "snelling", "fairview"),
-  age = c(24, 89, 43, 38)
-)
-
-contact
-```
-
-Use the appropriate join for each prompt below. In each case, think before you type:
-
--   What dataset goes on the left?
--   What do you want the resulting dataset to look like? How many rows and columns will it have?
-
-```{r}
-# 1. We want contact info for people who HAVEN'T voted
-
-
-# 2. We want contact info for people who HAVE voted
-
-
-# 3. We want any data available on each person
-
-
-# 4. When possible, we want to add contact info to the voting roster
-
-
-```
-
-
-
-### Exercise 3: Bigger datasets {.unnumbered}
-
-Let's apply these ideas to some bigger datasets. In `grades`, each row is a student-class pair with information on:
-
--   `sid` = student ID
--   `grade` = student's grade
--   `sessionID` = an identifier of the class section
-
-```{r}
-# Get rid of some duplicate rows!
-grades <- read.csv("https://mac-stat.github.io/data/grades.csv") |> 
-  distinct(sid, sessionID, .keep_all = TRUE)
-head(grades)
-```
-
-In `courses`, each row corresponds to a class section with information on:
-
--   `sessionID` = an identifier of the class section
--   `dept` = department
--   `level` = course level (eg: 100)
--   `sem` = semester
--   `enroll` = enrollment (number of students)
--   `iid` = instructor ID
-
-```{r}
-#| echo: false
-
-courses <- read.csv("https://mac-stat.github.io/data/courses.csv")
 head(courses)
 ```
 
-Use R code to take a quick glance at the data.
+Use our more familiar wrangling tools to warm up.
 
 ```{r}
-# How many observations (rows) and variables (columns) are there in the grades data?
+# Construct a table that indicates the number of classes offered in each day/time slot
+# Print only the 6 most popular time slots
 
 
-# How many observations (rows) and variables (columns) are there in the courses data?
-
-
-```
-
-
-
-### Exercise 4: Class size {.unnumbered}
-
-How big are the classes?
-
-#### Part a {.unnumbered}
-
-Before digging in, note that some courses are listed twice in the `courses` data:
-
-```{r}
 courses |> 
-  count(sessionID) |> 
-  filter(n > 1)
+  count(days, time) |> 
+  arrange(desc(n)) |> 
+  head()
+
 ```
 
-If we pick out just 1 of these, we learn that some courses are cross-listed in multiple departments:
+
+
+### Exercise 2: Prep the data {.unnumbered}
+
+So that we can analyze it later, we want to wrangle the `courses` data:
+
+-   Let's get some enrollment info:
+    -   Split `avail_max` into 2 separate variables: `avail` and `max`.
+    -   Use `avail` and `max` to define a new variable called `enroll`. HINT: You'll need `as.numeric()`
+-   Split the course `number` into 3 separate variables: `dept`, `number`, and `section`. HINT: You can use `separate()` to split a variable into 3, not just 2 new variables.
+
+Store this as `courses_clean` so that you can use it later.
 
 ```{r}
-courses |> 
-  filter(sessionID == "session2047")
+courses_clean <- courses |> 
+  separate(avail_max, c("avail", "max"), sep = " / ") |> 
+  mutate(enroll = as.numeric(max) - as.numeric(avail)) |> 
+  separate(number, c("dept", "number", "section"))
+  
+head(courses_clean)
 ```
 
-For our class size exploration, obtain the *total* enrollments in each `sessionID`, combining any cross-listed sections. Save this as `courses_combined`. NOTE: There's no joining to do here!
+
+
+### Exercise 3: Courses by department {.unnumbered}
+
+Using `courses_clean`...
 
 ```{r}
-# courses_combined <- courses |> 
-#   ___(sessionID) |> 
-#   ___(enroll = sum(___))
+# Identify the 6 departments that offered the most sections
 
-# Check that this has 1695 rows and 2 columns
-# dim(courses_combined)
-```
+courses_clean |> 
+  count(dept) |> 
+  arrange(desc(n)) |> 
+  head()
 
-#### Part b {.unnumbered}
+# Identify the 6 departments with the longest average course titles
 
-Let's first examine the question of class size from the *administration*'s viewpoint. To this end, calculate the median class size across all class sections. (The median is the *middle* or 50th percentile. Unlike the *mean*, it's not skewed by outliers.) THINK FIRST:
-
--   Which of the 2 datasets do you need to answer this question? One? Both?
--   If you need course information, use `courses_combined` not `courses`.
--   Do you have to do any joining? If so, which dataset will go on the left, i.e. which dataset includes your primary observations of interest? Which join function will you need?
-
-```{r}
-```
-
-#### Part c {.unnumbered}
-
-But how big are classes from the student perspective? To this end, calculate the median class size for each individual student. Once you have the correct output, store it as `student_class_size`. THINK FIRST:
-
--   Which of the 2 datasets do you need to answer this question? One? Both?
--   If you need course information, use `courses_combined` not `courses`.
--   Do you have to do any joining? If so, which dataset will go on the left, i.e. which dataset includes your primary observations of interest? Which join function will you need?
-
-```{r}
-```
-
-#### Part d {.unnumbered}
-
-The median class size varies from student to student. To get a sense for the typical student experience and range in student experiences, construct and discuss a histogram of the median class sizes experienced by the students.
-
-```{r}
-# ggplot(student_class_size, aes(x = ___)) + 
-#   geom___()
+courses_clean |> 
+  mutate(length = str_length(name)) |> 
+  group_by(dept) |> 
+  summarize(avg_length = mean(length)) |> 
+  arrange(desc(avg_length)) |> 
+  head()
 ```
 
 
 
-### Exercise 5: Narrowing in on classes {.unnumbered}
+### Exercise 4: STAT courses {.unnumbered}
 
 #### Part a {.unnumbered}
 
-Show data on the students that enrolled in `session1986`. THINK FIRST: Which of the 2 datasets do you need to answer this question? One? Both?
+Get a subset of `courses_clean` that only includes courses taught by Alicia Johnson.
 
 ```{r}
+courses_clean |> 
+  filter(str_detect(instructor, "Alicia Johnson")) 
 ```
 
 #### Part b {.unnumbered}
 
-Below is a dataset with all courses in department E:
+Create a new dataset from `courses_clean`, named `stat`, that only includes STAT sections. In this dataset:
+
+-   In the course names:
+
+    -   Remove "Introduction to" from any name.
+    -   Shorten "Statistical" to "Stat" where relevant.
+
+-   Define a variable that records the `start_time` for the course.
+
+-   Keep only the `number, name, start_time, enroll` columns.
+
+-   The result should have 19 rows and 4 columns.
 
 ```{r}
-dept_E <- courses |> 
-  filter(dept == "E")
+stat <- courses_clean |> 
+  filter(dept == "STAT") |> 
+  mutate(name = str_replace(name, "Introduction to ", "")) |>
+  mutate(name = str_replace(name, "Statistical", "Stat")) |> 
+  mutate(start_time = str_sub(time, 1, 5)) |> 
+  select(number, name, start_time, enroll)
+
+stat
 ```
 
-What students enrolled in classes in department E? (We just want info on the students, not the classes.)
+
+
+### Exercise 5: More cleaning {.unnumbered}
+
+In the next exercises, we'll dig into enrollments. Let's get the data ready for that analysis here. Make the following changes to the `courses_clean` data. Because they have different enrollment structures, and we don't want to compare apples and oranges, *remove* the following:
+
+-   all sections in `PE` and `INTD` (interdisciplinary studies courses)
+
+-   all music ensembles and dance practicums, i.e. all MUSI and THDA classes with numbers less than 100. HINT: `!(dept == "MUSI" & as.numeric(number) < 100)`
+
+-   all lab sections. Be careful which variable you use here. For example, you don't want to search by "Lab" and accidentally eliminate courses with words such as "Labor".
+
+Save the results as `enrollments` (don't overwrite `courses_clean`).
 
 ```{r}
+enrollments <- courses_clean |> 
+  filter(dept != "PE", dept != "INTD") |> 
+  filter(!(dept == "MUSI" & as.numeric(number) < 100)) |> 
+  filter(!(dept == "THDA" & as.numeric(number) < 100)) |> 
+  filter(!str_detect(section, "L"))
+  
+head(enrollments)
 ```
 
 
 
-### Exercise 6: All the wrangling {.unnumbered}
+### Exercise 6: Enrollment & departments {.unnumbered}
 
-Use all of your wrangling skills to answer the following prompts! THINK FIRST:
+Explore enrollments by department. *You* decide what research questions to focus on. Use both visual and numerical summaries.
 
--   Think about what tables you might need to join (if any). Identify the corresponding variables to match.
--   You'll need an extra table to convert grades to grade point averages:
+# Which one is the department with the highest total enrollment
 
 ```{r}
-gpa_conversion <- tibble(
-  grade = c("A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "D-", "NC", "AU", "S"), 
-  gp = c(4.3, 4, 3.7, 3.3, 3, 2.7, 2.3, 2, 1.7, 1.3, 1, 0.7, 0, NA, NA)
-)
-
-gpa_conversion
+enrollments |>
+  group_by(dept) |>
+  summarize(total_enrollment = sum(enroll, na.rm = TRUE),
+            n_sections = n()) |>
+  arrange(desc(total_enrollment))
 ```
-
-#### Part a {.unnumbered}
-
-How many total student enrollments are there in each department? Order from high to low.
 
 ```{r}
+library(ggplot2)
+
+enrollments |>
+  group_by(dept) |>
+  summarize(total_enrollment = sum(enroll, na.rm = TRUE)) |>
+  arrange(desc(total_enrollment)) |>
+  head(10) |> # Focus on the top 10 for visualization
+  ggplot(aes(x = reorder(dept, total_enrollment), y = total_enrollment)) +
+  geom_col() +
+  labs(title = "Total Enrollment by Department (Top 10)",
+       x = "Department",
+       y = "Total Enrollment")
 ```
 
-#### Part b {.unnumbered}
 
-What's the grade-point average (GPA) for each student?
+### Exercise 7: Enrollment & faculty {.unnumbered}
+
+Let's now explore enrollments by instructor. In doing so, we have to be cautious of cross-listed courses that are listed under multiple different departments. Uncomment the code lines in the chunk below for an example.
+
+::: {.callout-tip title="Commenting/Uncommenting Code"}
+
+To comment/uncomment several lines of code at once, highlight them then click <kbd>ctrl/cmd+shift+c</kbd>.
+
+:::
 
 ```{r}
+enrollments |>
+  filter(dept %in% c("STAT", "COMP"), number == 112, section == "01")
 ```
 
-#### Part c {.unnumbered}
-
-What's the median GPA across all students?
+Notice that these are the exact same section! In order to not double count an instructor's enrollments, we can keep only the courses that have `distinct()` *combinations* of `days, time, instructor` values.  Uncomment the code lines in the chunk below.
 
 ```{r}
+enrollments_2 <- enrollments |>
+  distinct(days, time, instructor, .keep_all = TRUE)
+
+# NOTE: By default this keeps the first department alphabetically
+# That's fine because we won't use this to analyze department enrollments!
+enrollments_2 |>
+  filter(instructor == "Brianna Heggeseth", name == "Introduction to Data Science")
 ```
 
-#### Part d {.unnumbered}
+*Now*, explore enrollments by instructor. *You* decide what research questions to focus on. Use both visual and numerical summaries.
 
-What fraction of grades are below B+?
+CAVEAT: The above code doesn't deal with *co-taught* courses that have more than one instructor. Thus instructors that co-taught are recorded as a pair, and their co-taught enrollments aren't added to their total enrollments. This is tough to get around with how the data were scraped as the instructor names are smushed together, not separated by a comma!
+
+# WHich insructor is the one that have the highest toal enrollment across their sections?
 
 ```{r}
+enrollments_2 |>
+  group_by(instructor) |>
+  summarize(total_enrollment = sum(enroll, na.rm = TRUE)) |>
+  arrange(desc(total_enrollment)) |>
+  head(1)
 ```
 
-#### Part e {.unnumbered}
 
-What's the grade-point average for each instructor? Order from low to high.
+
+### Optional extra practice {.unnumbered}
 
 ```{r}
+# Make a bar plot showing the number of night courses by day of the week
+# Use courses_clean
+
+
+
 ```
 
-#### Part f {.unnumbered}
 
-CHALLENGE: Estimate the grade-point average for each department, and sort from low to high. NOTE: Don't include cross-listed courses. Students in cross-listed courses could be enrolled under either department, and we do not know which department to assign the grade to. HINT: You'll need to do multiple joins.
+
+### Dig Deeper: regex {.unnumbered}
+
+Example 4 gave 1 small example of a regular expression.
+
+These are handy when we want process a string variable, but there's no consistent pattern by which to do this. You must think about the structure of the string and how you can use regular expressions to capture the patterns you want (and exclude the patterns you don't want).
+
+For example, how would you describe the pattern of a 10-digit phone number? Limit yourself to just a US phone number for now.
+
+-   The first 3 digits are the area code.
+-   The next 3 digits are the exchange code.
+-   The last 4 digits are the subscriber number.
+
+Thus, a regular expression for a US phone number could be:
+
+-   `[:digit:]{3}-[:digit:]{3}-[:digit:]{4}` which limits you to XXX-XXX-XXXX pattern or
+-   `\\([:digit:]{3}\\) [:digit:]{3}-[:digit:]{4}` which limits you to (XXX) XXX-XXXX pattern or
+-   `[:digit:]{3}\\.[:digit:]{3}\\.[:digit:]{4}` which limits you to XXX.XXX.XXXX pattern
+
+The following would include the three patterns above in addition to the XXXXXXXXXX pattern (no dashes or periods): - `[\\(]*[:digit:]{3}[-.\\)]*[:digit:]{3}[-.]*[:digit:]{4}`
+
+In order to write a regular expression, you first need to consider what patterns you want to include and exclude.
+
+Work through the following examples, and the tutorial after them to learn about the syntax.
+
+**EXAMPLES**
+
+```{r}
+# Define some strings to play around with
+example <- "The quick brown fox jumps over the lazy dog."
+```
+
+```{r}
+str_replace(example, "quick", "really quick")
+```
+
+```{r}
+str_replace_all(example, "(fox|dog)", "****") # | reads as OR
+```
+
+```{r}
+str_replace_all(example, "(fox|dog).", "****") # "." for any character
+```
+
+```{r}
+str_replace_all(example, "(fox|dog)\\.$", "****") # at end of sentence only, "\\." only for a period
+```
+
+```{r}
+str_replace_all(example, "the", "a") # case-sensitive only matches one
+```
+
+```{r}
+str_replace_all(example, "[Tt]he", "a") # # will match either t or T; could also make "a" conditional on capitalization of t
+```
+
+```{r}
+str_replace_all(example, "[Tt]he", "a") # first match only
+```
+
+```{r}
+# More examples
+example2 <- "Two roads diverged in a yellow wood, / And sorry I could not travel both / And be one traveler, long I stood / And looked down one as far as I could"
+example3 <- "This is a test"
+
+# Store the examples in 1 place
+examples <- c(example, example2, example3)
+```
+
+```{r}
+pat <- "[^aeiouAEIOU ]{3}" # Regular expression for three straight consonants. Note that I've excluded spaces as well
+
+str_detect(examples, pat) # TRUE/FALSE if it detects pattern
+```
+
+```{r}
+str_subset(examples, pat) # Pulls out those that detects pattern
+```
+
+```{r}
+pat2 <- "[^aeiouAEIOU ][aeiouAEIOU]{2}[^aeiouAEIOU ]{1}" # consonant followed by two vowels followed by a consonant
+
+str_extract(example2, pat2) # extract first match
+```
+
+```{r}
+str_extract_all(example2, pat2, simplify = TRUE) # extract all matches
+```
+
+**TUTORIAL**
+
+Try out this [interactive tutorial](https://regexone.com/). Note that neither the tutorial nor regular expressions more generally are specific to `R`, but it still illustrates the main ideas of regular expressions.
 
 
 
@@ -579,232 +576,139 @@ CHALLENGE: Estimate the grade-point average for each department, and sort from l
 
 <summary>Click for Solutions</summary>
 
-### Example 1 {-}
-
-a.  class
-b.  a student that took ANTH 101
-c.  data on ART 101
-
-
-### Example 2 {-}
-
--   What did this do? Linked course info to all students in `students_1`
--   Which observations from `students_1` (the *left* table) were retained? All of them.
--   Which observations from `enrollments_1` (the *right* table) were retained? Only STAT and GEOL, those that matched the students.
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try. We retain the courses, not students.
+### Example 1
 
 ```{r}
-enrollments_1 |> 
-  left_join(students_1)
+# Define a new variable "num" that adds up the number of characters in the area label
+classes |> 
+  mutate(num = str_length(area))
+
+# Change the areas to "history", "math", "anthro"
+classes |> 
+  mutate(area = str_to_lower(area))
+
+# Create a variable that id's which courses were taught in spring 
+classes |> 
+  mutate(spring = str_detect(sem, "SP"))
+
+# Change the semester labels to "fall2023", "spring2024", "spring2023"
+classes |> 
+  mutate(sem = str_replace(sem, "SP", "spring")) |> 
+  mutate(sem = str_replace(sem, "FA", "fall"))
+
+# In the enroll variable, change all e's to 3's (just because?)
+classes |> 
+  mutate(enroll = str_replace_all(enroll, "e", "3"))
+
+# Use sem to create 2 new variables, one with only the semester (SP/FA) and 1 with the year
+classes |> 
+  mutate(semester = str_sub(sem, 1, 2),
+         year = str_sub(sem, 3, 6))
 ```
 
-
-### Example 3 {-}
-
--   Which observations from `students_1` (the *left* table) were retained? A and B, only those with enrollment info.
-
--   Which observations from `enrollments_1` (the *right* table) were retained? STAT and GEOL, only those with studen info.
-
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try. Same info, different column order.
+### Example 2
 
 ```{r}
-enrollments_1 |> 
-    inner_join(students_1)
+# How can we do this after mutating?
+classes |> 
+  mutate(spring = str_detect(sem, "SP")) |> 
+  filter(spring == TRUE)
 ```
 
-### Example 4 {-}
 
--   Which observations from `students_1` (the *left* table) were retained? All
--   Which observations from `enrollments_1` (the *right* table) were retained? All
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try. Same data, different order.
+### Exercise 1: Popular time slots {.unnumbered}
 
 ```{r}
-enrollments_1 |> 
-    full_join(students_1)
-
-```
-
-### Example 5 {-}
-
--   Which observations from `students_1` (the *left* table) were retained? Only those with enrollment info.
--   Which observations from `enrollments_1` (the *right* table) were retained? None.
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try. Same data, different order.
-
-```{r}
-enrollments_1 |> 
-  semi_join(students_1)
-```
-
-### Example 6 {-}
-
--   Which observations from `students_1` (the *left* table) were retained? Only C, the one *without* enrollment info.
--   Which observations from `enrollments_1` (the *right* table) were retained? None.
--   What, if anything, would change if we reversed the order of the data tables? Think about it, then try. Retain only ART 101, the course with no student info.
-
-```{r}
-enrollments_1 |> 
-  anti_join(students_1)
-```
-
-
-### Exercise 2: More small practice {.unnumbered}
-
-```{r}
-# 1. We want contact info for people who HAVEN'T voted
-contact |> 
-  anti_join(voters, join_by(name == id))
-
-# 2. We want contact info for people who HAVE voted
-contact |> 
-  semi_join(voters, join_by(name == id))
-
-# 3. We want any data available on each person
-contact |> 
-  full_join(voters, join_by(name == id))
-voters |> 
-  full_join(contact, join_by(id == name))
-
-# 4. We want to add contact info, when possible, to the voting roster
-voters |> 
-  left_join(contact, join_by(id == name))
-```
-
-
-### Exercise 3: Bigger datasets {.unnumbered}
-
-```{r}
-# How many observations (rows) and variables (columns) are there in the grades data?
-dim(grades)
-
-# How many observations (rows) and variables (columns) are there in the courses data?
-dim(courses)
-
-```
-
-
-### Exercise 4: Class size {.unnumbered}
-
-#### Part a {.unnumbered}
-
-```{r}
-courses_combined <- courses |>
-  group_by(sessionID) |>
-  summarize(enroll = sum(enroll))
-
-# Check that this has 1695 rows and 2 columns
-dim(courses_combined)
-```
-
-#### Part b {.unnumbered}
-
-```{r eval = FALSE}
-courses_combined |> 
-  summarize(median(enroll))
-```
-
-#### Part c {.unnumbered}
-
-```{r eval = FALSE}
-student_class_size <- grades |> 
-  left_join(courses_combined) |> 
-  group_by(sid) |> 
-  summarize(med_class = median(enroll))
-
-head(student_class_size)
-```
-
-#### Part d {.unnumbered}
-
-```{r eval = FALSE}
-ggplot(student_class_size, aes(x = med_class)) +
-  geom_histogram(color = "white")
-```
-
-
-### Exercise 5: Narrowing in on classes {.unnumbered}
-
-#### Part a {.unnumbered}
-
-```{r eval = FALSE}
-grades |> 
-  filter(sessionID == "session1986")
-```
-
-#### Part b {.unnumbered}
-
-```{r eval = FALSE}
-grades |> 
-  semi_join(dept_E)
-```
-
-
-### Exercise 6: All the wrangling {.unnumbered}
-
-#### Part a {.unnumbered}
-
-```{r eval = FALSE}
+# Construct a table that indicates the number of classes offered in each day/time slot
+# Print only the 6 most popular time slots
 courses |> 
+  count(days, time) |> 
+  arrange(desc(n)) |> 
+  head()
+```
+
+
+
+### Exercise 2: Prep the data {.unnumbered}
+
+```{r}
+courses_clean <- courses |> 
+  separate(avail_max, c("avail", "max"), sep = " / ") |> 
+  mutate(enroll = as.numeric(max) - as.numeric(avail)) |> 
+  separate(number, c("dept", "number", "section"))
+  
+head(courses_clean)
+```
+
+
+
+### Exercise 3: Courses offered by department {.unnumbered}
+
+```{r}
+# Identify the 6 departments that offered the most sections
+courses_clean |> 
+  count(dept) |> 
+  arrange(desc(n)) |> 
+  head()
+
+# Identify the 6 departments with the longest average course titles
+courses_clean |> 
+  mutate(length = str_length(name)) |> 
   group_by(dept) |> 
-  summarize(total = sum(enroll)) |> 
-  arrange(desc(total))
+  summarize(avg_length = mean(length)) |> 
+  arrange(desc(avg_length)) |> 
+  head()
+```
+
+### Exercise 4: STAT courses {.unnumbered}
+
+#### Part a {.unnumbered}
+
+```{r}
+courses_clean |> 
+  filter(str_detect(instructor, "Alicia Johnson")) 
 ```
 
 #### Part b {.unnumbered}
 
-```{r eval = FALSE}
-grades |> 
-  left_join(gpa_conversion) |> 
-  group_by(sid) |> 
-  summarize(mean(gp, na.rm = TRUE))
+```{r}
+stat <- courses_clean |> 
+  filter(dept == "STAT") |> 
+  mutate(name = str_replace(name, "Introduction to ", "")) |>
+  mutate(name = str_replace(name, "Statistical", "Stat")) |> 
+  mutate(start_time = str_sub(time, 1, 5)) |> 
+  select(number, name, start_time, enroll)
+
+stat
+
+dim(stat)
 ```
 
-#### Part c {.unnumbered}
 
-```{r eval = FALSE}
-grades |> 
-  left_join(gpa_conversion) |> 
-  group_by(sid) |> 
-  summarize(gpa = mean(gp, na.rm = TRUE)) |> 
-  summarize(median(gpa))
+
+### Exercise 5: More cleaning {.unnumbered}
+
+```{r}
+enrollments <- courses_clean |> 
+  filter(dept != "PE", dept != "INTD") |> 
+  filter(!(dept == "MUSI" & as.numeric(number) < 100)) |> 
+  filter(!(dept == "THDA" & as.numeric(number) < 100)) |> 
+  filter(!str_detect(section, "L"))
+  
+head(enrollments)
 ```
 
-#### Part d {.unnumbered}
 
-```{r eval = FALSE}
-# There are lots of approaches here!
-grades |> 
-  left_join(gpa_conversion) |> 
-  mutate(below_b_plus = (gp < 3.3)) |> 
-  summarize(mean(below_b_plus, na.rm = TRUE))
-```
 
-#### Part e {.unnumbered}
+### Optional extra practice {.unnumbered}
 
-```{r eval = FALSE}
-grades |> 
-  left_join(gpa_conversion) |> 
-  left_join(courses) |> 
-  group_by(iid) |> 
-  summarize(gpa = mean(gp, na.rm = TRUE)) |> 
-  arrange(gpa)
-```
-
-#### Part f {.unnumbered}
-
-```{r eval = FALSE}
-cross_listed <- courses |> 
-  count(sessionID) |> 
-  filter(n > 1)
-
-grades |> 
-  anti_join(cross_listed) |> 
-  inner_join(courses) |> 
-  left_join(gpa_conversion) |> 
-  group_by(dept) |> 
-  summarize(gpa = mean(gp, na.rm = TRUE)) |> 
-  arrange(gpa)
+```{r}
+# Make a bar plot showing the number of night courses by day of the week.
+courses_clean |> 
+  filter(str_detect(time, "7:00")) |> 
+  ggplot(aes(x = days)) + 
+    geom_bar()
 ```
 
 </details>
-
 
