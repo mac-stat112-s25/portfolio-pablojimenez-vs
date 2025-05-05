@@ -10,6 +10,7 @@ library(tidytuesdayR)
 library(tidyverse)
 library(rnaturalearth)
 library(sf)
+library(dplyr)
 ```
 
 ```{r}
@@ -22,67 +23,66 @@ str(fc)
 head(fc, 22)
 ```
 
-# Viz 1
+# 1. Which are the Countries that consume the most food?
 
 ```{r}
-ne_countries(returnclass = "sf") |>
-  select(name, geometry) |>
-  left_join(fc |> select(-co2_emmision),
-            join_by(name == country)) |>
+total_consumption_by_country <- fc %>%
+  group_by(country) %>%
+  summarise(total_consumption = sum(consumption)) %>%
+  arrange(desc(total_consumption))
+
+print(total_consumption_by_country)
+```
+
+# 2. Which top 5 countries consume each food are?
+
+```{r}
+top_5_consumers_by_food <- fc %>%
+  group_by(food_category) %>%
+  arrange(desc(consumption), .by_group = TRUE) %>%
+  slice_head(n = 5)
+
+print(top_5_consumers_by_food)
+```
+
+# 3 What does the consumption of each food look like?
+
+```{r}
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food_consumption
+
+fcc <- fc %>%
+  mutate(country = case_when(
+    country == "United States of America" ~ "USA",
+    country == "Bosnia and Herz" ~ "Bosnia and Herzegovina",
+    country == "Czechia" ~ "Czech Republic",
+    country == "Taiwan" ~ "Taiwan. ROC",
+    TRUE ~ country
+  ))
+
+world <- ne_countries(returnclass = "sf") %>%
+  select(name, geometry)
+
+food_consumption_map <- world %>%
+  left_join(fcc %>% select(country, consumption, food_category), 
+            join_by(name == country)) %>%
+  filter(!is.na(consumption)) %>%
   ggplot() +
   geom_sf(aes(fill = consumption)) +
-  facet_wrap(-food_category) +
-  theme(legend.position = "bottom")
-```
+  facet_wrap(~ food_category) +
+  scale_fill_viridis_c(option = "plasma", na.value = "lightgray") +
+  labs(
+    title = "Consumption of Each Food",
+    fill = "Consumption"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    strip.text = element_text(size = 10),
+    plot.title = element_text(hjust = 0.5)
+  )
 
-#Viz 2
-
-```{r}
-ne_countries(returnclass = "sf") |>
-  select(name, geometry) |>
-  mutate(name = ifelse(name == "United States of America", "USA", name)) |>
-  mutate(name = ifelse(name == "Bosnia and Herz", "Bosnia and Herzegovina", name)) |>
-  mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>
-  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>
-  left_join(fcc |> select(-co2_emmission),
-            join_by(name == country)) |>
-  pivot_wider(names_from = food_category,
-              values_from = consumption) |>
-  select(-"NA") |>
-  pivot_longer(cols = c(-name, -geometry),
-               names_to = "food category",
-               values_to = "consumption") |>
- ggplot() +
- geom_sf(aes(fill = consumption)) +
- facet_wrap(-food_category) +
- theme(legend.position = "bottom")
-  
-```
-# Viz 3
-
-```{r}
-ne_countries(returnclass = "sf") |>
-  select(name, geometry) |>
-  mutate(name = ifelse(name == "United States of America", "USA", name)) |>
-  mutate(name = ifelse(name == "Bosnia and Herz", "Bosnia and Herzegovina", name)) |>
-  mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>
-  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>
-  left_join(
-    fcc |>
-    select(-co2_emmission) |>
-    group_by(food_category) |>
-    mutate(consumption = (consumption - mean(consumption))/sd(consumption)),
-    join_by(name == country)) |>
-  pivot_wider(names_from = food_category,
-              values_from = consumption) |>
-  select(-"NA") |>
-  pivot_longer(cols = c(-name, -geometry),
-               names_to = "food category",
-               values_to = "consumption") |>
- ggplot() +
- geom_sf(aes(fill = consumption)) +
- facet_wrap(-food_category) +
- theme(legend.position = "bottom")
+print(food_consumption_map)
 ```
 
 
