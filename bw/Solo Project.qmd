@@ -2,56 +2,83 @@
 title: "Solo Project"
 format: html
 ---
-# This Map show Minnesota and the levels of Dissolved oxygen around its lakes 
-```{r}
-library(readxl)
-library(ggplot2)
-library(ggmap)
-library(dplyr)
 
-Lake_Profile_Data_R_practice <- read_excel("~/Downloads/Lake Profile Data -R practice.xlsx")
+# Multi Dimensional Poverty index across Bolivia 
 
-lake_locations <- data.frame(
-  Site = c("Cedar", "Colby", "Como", "Crosby", "German", "Isles", "Lake of the Isles", "McCarrons", "Peltier", "Ryan", "Snelling", "Square", "West Jefferson"),
-  Latitude = c(44.978, 45.062, 44.983, 44.968, 45.067, 44.958, 44.958, 45.018, 45.053, 44.988, 44.948, 45.009, 45.035),
-  Longitude = c(-93.182, -93.112, -93.168, -93.133, -93.068, -93.303, -93.303, -93.053, -93.088, -93.233, -93.013, -93.258, -93.038)
-)
+Based on data compiled in 2016 regarding poverty index I wanted to test my skills in a dataset from Bolivia which described the Poverty index by each department(state equivalent) in Bolivia.
 
-merged_data <- left_join(Lake_Profile_Data_R_practice, lake_locations, by = "Site")
+Research question: What are the Multi Dimensional Poverty Index across each state in Bolivia?
 
-```
-
-#This map helps visualize a general water quality across some Minnesota lakes.
 
 ```{r}
-library(ggplot2)
-library(dplyr)
-library(maps)
+library(sf)
+library(tidyverse)
+library(viridis)
 
-average_do_by_lake <- merged_data %>%
-  group_by(Site, Latitude, Longitude) %>%
-  summarise(Average_DO = mean(`DO(mg/L)`, na.rm = TRUE), .groups = "drop")
+bolivia_shape <- read_sf("/Users/pablojimenez/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bo_shp/bo.shp")
 
-average_do_by_lake_cleaned <- average_do_by_lake %>%
-  filter(!is.na(Latitude) & !is.na(Longitude))
+print(bolivia_shape)
 
-minnesota_states_map <- map_data("state", region = "minnesota")
+# bol_mpi <- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", header=FALSE, comment.char="#")
 
-do_map_minnesota <- ggplot() +
-  geom_polygon(data = minnesota_states_map, aes(x = long, y = lat, group = group), fill = "lightgray", color = "black") +
-  geom_point(data = average_do_by_lake_cleaned, aes(x = Longitude, y = Latitude, color = Average_DO), size = 3) +
-  geom_text(data = average_do_by_lake_cleaned, aes(x = Longitude, y = Latitude, label = Site),
-            nudge_x = 0.05, nudge_y = 0.05, size = 3, check_overlap = TRUE) +
-  scale_color_viridis_c(option = "plasma", name = "Average DO (mg/L)") +
-  labs(
-    title = "Average Dissolved Oxygen Levels in Minnesota Lakes",
-    caption = "Data from Lake Profile Dataset"
-  ) +
-  coord_sf(xlim = range(average_do_by_lake_cleaned$Longitude) + c(-0.5, 0.5),
-             ylim = range(average_do_by_lake_cleaned$Latitude) + c(-0.3, 0.3),
-             crs = 4326, expand = FALSE) +
-  theme_minimal()
+bol_mpi <- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", skip = 1, header = TRUE)
 
-print(do_map_minnesota)
+bol_mpi <- bol_mpi[-1, ]
+
+view(bol_mpi)
 ```
 
+```{r}
+library(ggplot2)
+
+ggplot(bolivia_shape) +
+  geom_sf()
+
+unique(bol_mpi$`X.adm1.name`)
+
+unique(bolivia_shape$name)
+
+bolivia_shape_cleaned <- bolivia_shape %>%
+  mutate(name_cleaned = case_when(
+    name == "La Paz" ~ "La Paz",
+    name == "Oruro" ~ "Oruro",
+    name == "Potosí" ~ "Potosi",
+    name == "Tarija" ~ "Tarija",
+    name == "Santa Cruz" ~ "Santa Cruz",
+    name == "Chuquisaca" ~ "Chuquisaca",
+    name == "Pando" ~ "Pando",
+    name == "El Beni" ~ "Beni",
+    name == "Cochabamba" ~ "Cochabamba",
+    TRUE ~ name 
+  ))
+
+bol_mpi_cleaned <- bol_mpi %>%
+  rename(name_cleaned = `X.adm1.name`)
+```
+
+```{r}
+bolivia_mpi_map <- bolivia_shape_cleaned %>%
+  left_join(bol_mpi_cleaned, by = "name_cleaned")
+```
+
+```{r}
+mpi_map <- ggplot(bolivia_mpi_map) +
+  geom_sf(aes(fill = X.indicator.mpi), color = "black", linewidth = 0.2) +
+  scale_fill_viridis_c(option = "plasma", name = "MPI") +
+  labs(title = "Multidimensional Poverty Index (MPI) across departments in Bolivia",
+       subtitle = "Higher MPI values indicate greater multidimensional poverty",
+       fill = "MPI") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5),
+        plot.subtitle = element_text(hjust = 0.5))
+
+print(mpi_map)
+```
+
+The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.
+
+Through this Chloropleth map we can notice how there is indeed a difference in MPI Index as almost all of the Departments have a different color than others, The darker shades of purple, representing lower MPI values (closer to 0.02), appear concentrated in the central and eastern parts of the country. This is interesting because this is the largest state in the country and one would expect that along with the amount of its population its MPI value would be higher
+
+The southern and northwestern departments tend to have higher MPI values, suggesting a larger proportion of their population faces deprivations across health, education, and living standards. This is suprising due to the perceived wealth that some of its major cities demonstrate.
+
+Generally, although the map showcases a variation in the Multidimension Poverty Index across the departments, it is nice as a Bolivian to see an overall "positive" trend in the entire country.
