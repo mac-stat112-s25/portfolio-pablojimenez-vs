@@ -30,6 +30,9 @@ book:
       - bw/bw-tri.qmd
       - bw/bw-quad.qmd
       - bw/bw-spatial.qmd
+      - Exam 1.qmd
+      - Solo Project.qmd
+      - Food Consumption 2.qmd
 
     - part: "In-class Activities"
       chapters: 
@@ -43,6 +46,7 @@ book:
       - ica/Joining.qmd
       - ica/Factors.qmd
       - ica/Strings.qmd
+      - ica/Data_Import.qmd
 
 format:
   html:
