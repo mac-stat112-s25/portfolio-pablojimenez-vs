@@ -257,7 +257,6 @@ Here are just some, few of which we explored above:
 
 ## Exercises
 
-{{< include activity-instructions.qmd >}}
 
 The exercises revisit our `grades` data:
 
