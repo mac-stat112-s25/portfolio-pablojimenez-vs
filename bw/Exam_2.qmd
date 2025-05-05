@@ -15,6 +15,7 @@ library(sf)
 ```{r}
 tuesdata <- tt_load('2020-02-18')
 fc <- tuesdata$food_consumption
+view(fc)
 ```
 ```{r}
 str(fc)
@@ -42,6 +43,46 @@ ne_countries(returnclass = "sf") |>
   mutate(name = ifelse(name == "United States of America", "USA", name)) |>
   mutate(name = ifelse(name == "Bosnia and Herz", "Bosnia and Herzegovina", name)) |>
   mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>
+  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>
+  left_join(fcc |> select(-co2_emmission),
+            join_by(name == country)) |>
+  pivot_wider(names_from = food_category,
+              values_from = consumption) |>
+  select(-"NA") |>
+  pivot_longer(cols = c(-name, -geometry),
+               names_to = "food category",
+               values_to = "consumption") |>
+ ggplot() +
+ geom_sf(aes(fill = consumption)) +
+ facet_wrap(-food_category) +
+ theme(legend.position = "bottom")
   
 ```
+# Viz 3
+
+```{r}
+ne_countries(returnclass = "sf") |>
+  select(name, geometry) |>
+  mutate(name = ifelse(name == "United States of America", "USA", name)) |>
+  mutate(name = ifelse(name == "Bosnia and Herz", "Bosnia and Herzegovina", name)) |>
+  mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>
+  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>
+  left_join(
+    fcc |>
+    select(-co2_emmission) |>
+    group_by(food_category) |>
+    mutate(consumption = (consumption - mean(consumption))/sd(consumption)),
+    join_by(name == country)) |>
+  pivot_wider(names_from = food_category,
+              values_from = consumption) |>
+  select(-"NA") |>
+  pivot_longer(cols = c(-name, -geometry),
+               names_to = "food category",
+               values_to = "consumption") |>
+ ggplot() +
+ geom_sf(aes(fill = consumption)) +
+ facet_wrap(-food_category) +
+ theme(legend.position = "bottom")
+```
+
 
