@@ -207,8 +207,6 @@ At this stage, ask yourself:
 
 ## Exercises
 
-{{< include activity-instructions.qmd >}}
-
 Suppose our goal is to work with data on movie reviews, and that we've already gone through the work to find a dataset. The `imdb_5000_messy.csv` file is posted on Moodle. Let's work with it!
 
 
@@ -535,6 +533,27 @@ Let's practice the above ideas while also planting some seeds for the course pro
 -   Each individual: Find a dataset online that's related to one of the topics you shared in the above prompt.
 -   Discuss what data you found with your group!
 -   Load the data into RStudio, perform some basic checks, and perform some preliminary cleaning, as necessary.
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(dplyr)
+library(sf)
+
+democracy_data <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-11-05/democracy_data.csv')
+
+commonwealth <- democracy_data |>
+  filter(is_commonwealth == TRUE)
+
+commonwealth_1950 <- commonwealth |>
+  filter(year == 1950)
+
+commonwealth_2020 <- commonwealth |>
+  filter(year == 2020)
+```
+
 
 
 
