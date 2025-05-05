@@ -30,9 +30,9 @@ book:
       - bw/bw-tri.qmd
       - bw/bw-quad.qmd
       - bw/bw-spatial.qmd
-      - Exam 1.qmd
-      - Solo Project.qmd
-      - Food Consumption 2.qmd
+      - bw/Exam 1.qmd
+      - bw/Solo Project.qmd
+      - bw/Food Consumption 2.qmd
 
     - part: "In-class Activities"
       chapters: 
