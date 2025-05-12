@@ -5,8 +5,8 @@ format: html
 
 # Exam 1 Summary Sheet
 
-![](Exam 1 Summary sheet.pdf)
+![](Exam%201%20Summary%20sheet.pdf)
 
 # Exam 1
 
-![](Exam 1 - Pablo Jiménez.pdf)
+![](Exam%201%20-%20Pablo%20Jiménez.pdf)

@@ -3,10 +3,10 @@ title: "Exam 2 Summary "
 format: html
 ---
 
-# Exam 2 Summary Sheet 
+# Exam 2 Summary Sheet
 
-![](Exam 2 Summary sheet.pdf)
+![](Exam%202%20Summary%20sheet.pdf)
 
 Exam 2
 
-![](Exam2 - Pablo Jimenez.pdf)
+![](Exam2%20-%20Pablo%20Jimenez.pdf)
