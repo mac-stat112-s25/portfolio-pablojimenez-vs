@@ -49,10 +49,11 @@ book:
       - ica/Strings.qmd
       - ica/Data_Import.qmd
     - part: "Summary"
-      - Summary/Exam 1 - Pablo Jiménez.pdf
-      - Summary/Exam 1 Summary sheet.pdf
-      - Summary/Exam 2 Summary sheet.pdf
-      - Summary/Exam2 - Pablo Jimenez.pdf
+      chapters: 
+        - Summary/Exam 1 - Pablo Jiménez.pdf
+        - Summary/Exam 1 Summary sheet.pdf
+        - Summary/Exam 2 Summary sheet.pdf
+        - Summary/Exam2 - Pablo Jimenez.pdf
       
 
 format:
