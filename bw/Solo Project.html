@@ -310,18 +310,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-<li><a href="#multi-dimensional-poverty-index-across-bolivia" id="toc-multi-dimensional-poverty-index-across-bolivia" class="nav-link active" data-scroll-target="#multi-dimensional-poverty-index-across-bolivia"><span class="header-section-number">8</span> Multi Dimensional Poverty index across Bolivia</a></li>
-  </ul></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../bw/bw-uni.html">Best Work</a></li><li class="breadcrumb-item"><a href="../bw/Solo Project.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Solo Project</span></a></li></ol></nav><div class="quarto-title">
 <div class="quarto-title-block"><div><h1 class="title">
 <span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Solo Project</span>
-</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+</h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -335,37 +331,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><section id="multi-dimensional-poverty-index-across-bolivia" class="level1" data-number="8"><h1 data-number="8">
-<span class="header-section-number">8</span> Multi Dimensional Poverty index across Bolivia</h1>
-<p>Based on data compiled in 2016 regarding poverty index I wanted to test my skills in a dataset from Bolivia which described the Poverty index by each department(state equivalent) in Bolivia.</p>
-<p>Research question: What are the Multi Dimensional Poverty Index across each state in Bolivia?</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Linking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.4     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     </code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="fu">library</span>(viridis)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Loading required package: viridisLite</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>bolivia_shape <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"/Users/pablojimenez/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bo_shp/bo.shp"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="fu">print</span>(bolivia_shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</header><pre><code>
+
+# Multi Dimensional Poverty index across Bolivia 
+
+Based on data compiled in 2016 regarding poverty index I wanted to test my skills in a dataset from Bolivia which described the Poverty index by each department(state equivalent) in Bolivia.
+
+Research question: What are the Multi Dimensional Poverty Index across each state in Bolivia?
+
+
+::: {.cell}
+
+```{.r .cell-code}
+library(sf)
+library(tidyverse)
+library(viridis)
+
+bolivia_shape &lt;- read_sf("/Users/pablojimenez/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bo_shp/bo.shp")
+
+print(bolivia_shape)</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>Simple feature collection with 9 features and 3 fields
 Geometry type: POLYGON
@@ -385,77 +369,79 @@ Geodetic CRS:  WGS 84
 8 BOB   El Beni    https://simplemaps.com ((-66.78442 -15.6993, -66.82579 -15.6…
 9 BOC   Cochabamba https://simplemaps.com ((-66.98994 -17.55128, -66.86126 -17.…</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># bol_mpi &lt;- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", header=FALSE, comment.char="#")</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a>bol_mpi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv"</span>, <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb10-4"><a href="#cb10-4"></a></span>
-<span id="cb10-5"><a href="#cb10-5"></a>bol_mpi <span class="ot">&lt;-</span> bol_mpi[<span class="sc">-</span><span class="dv">1</span>, ]</span>
-<span id="cb10-6"><a href="#cb10-6"></a></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="fu">view</span>(bol_mpi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># bol_mpi &lt;- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", header=FALSE, comment.char="#")</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>bol_mpi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv"</span>, <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>bol_mpi <span class="ot">&lt;-</span> bol_mpi[<span class="sc">-</span><span class="dv">1</span>, ]</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="fu">view</span>(bol_mpi)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><p>:::</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb11-2"><a href="#cb11-2"></a></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="fu">ggplot</span>(bolivia_shape) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">geom_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="fu">ggplot</span>(bolivia_shape) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="fu">geom_sf</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Solo-Project_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">unique</span>(bol_mpi<span class="sc">$</span><span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">unique</span>(bol_mpi<span class="sc">$</span><span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "Chuquisaca" "La Paz"     "Cochabamba" "Oruro"      "Potosi"    
 [6] "Tarija"     "Santa Cruz" "Beni"       "Pando"     </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">unique</span>(bolivia_shape<span class="sc">$</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">unique</span>(bolivia_shape<span class="sc">$</span>name)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output cell-output-stdout">
 <pre><code>[1] "La Paz"     "Oruro"      "Potosí"     "Tarija"     "Santa Cruz"
 [6] "Chuquisaca" "Pando"      "El Beni"    "Cochabamba"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>bolivia_shape_cleaned <span class="ot">&lt;-</span> bolivia_shape <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2"></a>  <span class="fu">mutate</span>(<span class="at">name_cleaned =</span> <span class="fu">case_when</span>(</span>
-<span id="cb16-3"><a href="#cb16-3"></a>    name <span class="sc">==</span> <span class="st">"La Paz"</span> <span class="sc">~</span> <span class="st">"La Paz"</span>,</span>
-<span id="cb16-4"><a href="#cb16-4"></a>    name <span class="sc">==</span> <span class="st">"Oruro"</span> <span class="sc">~</span> <span class="st">"Oruro"</span>,</span>
-<span id="cb16-5"><a href="#cb16-5"></a>    name <span class="sc">==</span> <span class="st">"Potosí"</span> <span class="sc">~</span> <span class="st">"Potosi"</span>,</span>
-<span id="cb16-6"><a href="#cb16-6"></a>    name <span class="sc">==</span> <span class="st">"Tarija"</span> <span class="sc">~</span> <span class="st">"Tarija"</span>,</span>
-<span id="cb16-7"><a href="#cb16-7"></a>    name <span class="sc">==</span> <span class="st">"Santa Cruz"</span> <span class="sc">~</span> <span class="st">"Santa Cruz"</span>,</span>
-<span id="cb16-8"><a href="#cb16-8"></a>    name <span class="sc">==</span> <span class="st">"Chuquisaca"</span> <span class="sc">~</span> <span class="st">"Chuquisaca"</span>,</span>
-<span id="cb16-9"><a href="#cb16-9"></a>    name <span class="sc">==</span> <span class="st">"Pando"</span> <span class="sc">~</span> <span class="st">"Pando"</span>,</span>
-<span id="cb16-10"><a href="#cb16-10"></a>    name <span class="sc">==</span> <span class="st">"El Beni"</span> <span class="sc">~</span> <span class="st">"Beni"</span>,</span>
-<span id="cb16-11"><a href="#cb16-11"></a>    name <span class="sc">==</span> <span class="st">"Cochabamba"</span> <span class="sc">~</span> <span class="st">"Cochabamba"</span>,</span>
-<span id="cb16-12"><a href="#cb16-12"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> name </span>
-<span id="cb16-13"><a href="#cb16-13"></a>  ))</span>
-<span id="cb16-14"><a href="#cb16-14"></a></span>
-<span id="cb16-15"><a href="#cb16-15"></a>bol_mpi_cleaned <span class="ot">&lt;-</span> bol_mpi <span class="sc">%&gt;%</span></span>
-<span id="cb16-16"><a href="#cb16-16"></a>  <span class="fu">rename</span>(<span class="at">name_cleaned =</span> <span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>bolivia_shape_cleaned <span class="ot">&lt;-</span> bolivia_shape <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>  <span class="fu">mutate</span>(<span class="at">name_cleaned =</span> <span class="fu">case_when</span>(</span>
+<span id="cb9-3"><a href="#cb9-3"></a>    name <span class="sc">==</span> <span class="st">"La Paz"</span> <span class="sc">~</span> <span class="st">"La Paz"</span>,</span>
+<span id="cb9-4"><a href="#cb9-4"></a>    name <span class="sc">==</span> <span class="st">"Oruro"</span> <span class="sc">~</span> <span class="st">"Oruro"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>    name <span class="sc">==</span> <span class="st">"Potosí"</span> <span class="sc">~</span> <span class="st">"Potosi"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6"></a>    name <span class="sc">==</span> <span class="st">"Tarija"</span> <span class="sc">~</span> <span class="st">"Tarija"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7"></a>    name <span class="sc">==</span> <span class="st">"Santa Cruz"</span> <span class="sc">~</span> <span class="st">"Santa Cruz"</span>,</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    name <span class="sc">==</span> <span class="st">"Chuquisaca"</span> <span class="sc">~</span> <span class="st">"Chuquisaca"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9"></a>    name <span class="sc">==</span> <span class="st">"Pando"</span> <span class="sc">~</span> <span class="st">"Pando"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10"></a>    name <span class="sc">==</span> <span class="st">"El Beni"</span> <span class="sc">~</span> <span class="st">"Beni"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11"></a>    name <span class="sc">==</span> <span class="st">"Cochabamba"</span> <span class="sc">~</span> <span class="st">"Cochabamba"</span>,</span>
+<span id="cb9-12"><a href="#cb9-12"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> name </span>
+<span id="cb9-13"><a href="#cb9-13"></a>  ))</span>
+<span id="cb9-14"><a href="#cb9-14"></a></span>
+<span id="cb9-15"><a href="#cb9-15"></a>bol_mpi_cleaned <span class="ot">&lt;-</span> bol_mpi <span class="sc">%&gt;%</span></span>
+<span id="cb9-16"><a href="#cb9-16"></a>  <span class="fu">rename</span>(<span class="at">name_cleaned =</span> <span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>bolivia_mpi_map <span class="ot">&lt;-</span> bolivia_shape_cleaned <span class="sc">%&gt;%</span></span>
-<span id="cb17-2"><a href="#cb17-2"></a>  <span class="fu">left_join</span>(bol_mpi_cleaned, <span class="at">by =</span> <span class="st">"name_cleaned"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>bolivia_mpi_map <span class="ot">&lt;-</span> bolivia_shape_cleaned <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">left_join</span>(bol_mpi_cleaned, <span class="at">by =</span> <span class="st">"name_cleaned"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="fu">ggplot</span>(bolivia_mpi_map) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> X.indicator.mpi), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multidimensional Poverty Index (MPI) across departments in Bolivia"</span>,</span>
-<span id="cb18-5"><a href="#cb18-5"></a>       <span class="at">subtitle =</span> <span class="st">"Higher MPI values indicate greater multidimensional poverty"</span>,</span>
-<span id="cb18-6"><a href="#cb18-6"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>,</span>
-<span id="cb18-7"><a href="#cb18-7"></a>       <span class="at">caption =</span> <span class="st">"Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index"</span>) <span class="sc">+</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a>  <span class="fu">theme</span>(</span>
-<span id="cb18-10"><a href="#cb18-10"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb18-11"><a href="#cb18-11"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb18-12"><a href="#cb18-12"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb18-13"><a href="#cb18-13"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb18-14"><a href="#cb18-14"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb18-15"><a href="#cb18-15"></a>    </span>
-<span id="cb18-16"><a href="#cb18-16"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb18-17"><a href="#cb18-17"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb18-18"><a href="#cb18-18"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>() </span>
-<span id="cb18-19"><a href="#cb18-19"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">ggplot</span>(bolivia_mpi_map) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> X.indicator.mpi), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multidimensional Poverty Index (MPI) across departments in Bolivia"</span>,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>       <span class="at">subtitle =</span> <span class="st">"Higher MPI values indicate greater multidimensional poverty"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>,</span>
+<span id="cb11-7"><a href="#cb11-7"></a>       <span class="at">caption =</span> <span class="st">"Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index"</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>  <span class="fu">theme</span>(</span>
+<span id="cb11-10"><a href="#cb11-10"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb11-11"><a href="#cb11-11"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb11-12"><a href="#cb11-12"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb11-13"><a href="#cb11-13"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb11-14"><a href="#cb11-14"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-15"><a href="#cb11-15"></a>    </span>
+<span id="cb11-16"><a href="#cb11-16"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb11-17"><a href="#cb11-17"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb11-18"><a href="#cb11-18"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>() </span>
+<span id="cb11-19"><a href="#cb11-19"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Solo-Project_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
@@ -470,7 +456,8 @@ Geodetic CRS:  WGS 84
 
 <!-- -->
 
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+
+</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -1100,98 +1087,113 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb19" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1"></a><span class="co">---</span></span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="an">title:</span><span class="co"> "Solo Project"</span></span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="an">format:</span><span class="co"> html</span></span>
-<span id="cb19-4"><a href="#cb19-4"></a><span class="co">---</span></span>
-<span id="cb19-5"><a href="#cb19-5"></a></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="fu"># Multi Dimensional Poverty index across Bolivia </span></span>
-<span id="cb19-7"><a href="#cb19-7"></a></span>
-<span id="cb19-8"><a href="#cb19-8"></a>Based on data compiled in 2016 regarding poverty index I wanted to test my skills in a dataset from Bolivia which described the Poverty index by each department(state equivalent) in Bolivia.</span>
-<span id="cb19-9"><a href="#cb19-9"></a></span>
-<span id="cb19-10"><a href="#cb19-10"></a>Research question: What are the Multi Dimensional Poverty Index across each state in Bolivia?</span>
-<span id="cb19-11"><a href="#cb19-11"></a></span>
-<span id="cb19-12"><a href="#cb19-12"></a></span>
-<span id="cb19-15"><a href="#cb19-15"></a><span class="in">```{r}</span></span>
-<span id="cb19-16"><a href="#cb19-16"></a><span class="fu">library</span>(sf)</span>
-<span id="cb19-17"><a href="#cb19-17"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb19-18"><a href="#cb19-18"></a><span class="fu">library</span>(viridis)</span>
-<span id="cb19-19"><a href="#cb19-19"></a></span>
-<span id="cb19-20"><a href="#cb19-20"></a>bolivia_shape <span class="ot">&lt;-</span> <span class="fu">read_sf</span>(<span class="st">"/Users/pablojimenez/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bo_shp/bo.shp"</span>)</span>
-<span id="cb19-21"><a href="#cb19-21"></a></span>
-<span id="cb19-22"><a href="#cb19-22"></a><span class="fu">print</span>(bolivia_shape)</span>
-<span id="cb19-23"><a href="#cb19-23"></a></span>
-<span id="cb19-24"><a href="#cb19-24"></a><span class="co"># bol_mpi &lt;- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", header=FALSE, comment.char="#")</span></span>
-<span id="cb19-25"><a href="#cb19-25"></a></span>
-<span id="cb19-26"><a href="#cb19-26"></a>bol_mpi <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv"</span>, <span class="at">skip =</span> <span class="dv">1</span>, <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb19-27"><a href="#cb19-27"></a></span>
-<span id="cb19-28"><a href="#cb19-28"></a>bol_mpi <span class="ot">&lt;-</span> bol_mpi[<span class="sc">-</span><span class="dv">1</span>, ]</span>
-<span id="cb19-29"><a href="#cb19-29"></a></span>
-<span id="cb19-30"><a href="#cb19-30"></a><span class="fu">view</span>(bol_mpi)</span>
-<span id="cb19-31"><a href="#cb19-31"></a><span class="in">```</span></span>
-<span id="cb19-32"><a href="#cb19-32"></a></span>
-<span id="cb19-35"><a href="#cb19-35"></a><span class="in">```{r}</span></span>
-<span id="cb19-36"><a href="#cb19-36"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb19-37"><a href="#cb19-37"></a></span>
-<span id="cb19-38"><a href="#cb19-38"></a><span class="fu">ggplot</span>(bolivia_shape) <span class="sc">+</span></span>
-<span id="cb19-39"><a href="#cb19-39"></a>  <span class="fu">geom_sf</span>()</span>
-<span id="cb19-40"><a href="#cb19-40"></a></span>
-<span id="cb19-41"><a href="#cb19-41"></a><span class="fu">unique</span>(bol_mpi<span class="sc">$</span><span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span>
-<span id="cb19-42"><a href="#cb19-42"></a></span>
-<span id="cb19-43"><a href="#cb19-43"></a><span class="fu">unique</span>(bolivia_shape<span class="sc">$</span>name)</span>
-<span id="cb19-44"><a href="#cb19-44"></a></span>
-<span id="cb19-45"><a href="#cb19-45"></a>bolivia_shape_cleaned <span class="ot">&lt;-</span> bolivia_shape <span class="sc">%&gt;%</span></span>
-<span id="cb19-46"><a href="#cb19-46"></a>  <span class="fu">mutate</span>(<span class="at">name_cleaned =</span> <span class="fu">case_when</span>(</span>
-<span id="cb19-47"><a href="#cb19-47"></a>    name <span class="sc">==</span> <span class="st">"La Paz"</span> <span class="sc">~</span> <span class="st">"La Paz"</span>,</span>
-<span id="cb19-48"><a href="#cb19-48"></a>    name <span class="sc">==</span> <span class="st">"Oruro"</span> <span class="sc">~</span> <span class="st">"Oruro"</span>,</span>
-<span id="cb19-49"><a href="#cb19-49"></a>    name <span class="sc">==</span> <span class="st">"Potosí"</span> <span class="sc">~</span> <span class="st">"Potosi"</span>,</span>
-<span id="cb19-50"><a href="#cb19-50"></a>    name <span class="sc">==</span> <span class="st">"Tarija"</span> <span class="sc">~</span> <span class="st">"Tarija"</span>,</span>
-<span id="cb19-51"><a href="#cb19-51"></a>    name <span class="sc">==</span> <span class="st">"Santa Cruz"</span> <span class="sc">~</span> <span class="st">"Santa Cruz"</span>,</span>
-<span id="cb19-52"><a href="#cb19-52"></a>    name <span class="sc">==</span> <span class="st">"Chuquisaca"</span> <span class="sc">~</span> <span class="st">"Chuquisaca"</span>,</span>
-<span id="cb19-53"><a href="#cb19-53"></a>    name <span class="sc">==</span> <span class="st">"Pando"</span> <span class="sc">~</span> <span class="st">"Pando"</span>,</span>
-<span id="cb19-54"><a href="#cb19-54"></a>    name <span class="sc">==</span> <span class="st">"El Beni"</span> <span class="sc">~</span> <span class="st">"Beni"</span>,</span>
-<span id="cb19-55"><a href="#cb19-55"></a>    name <span class="sc">==</span> <span class="st">"Cochabamba"</span> <span class="sc">~</span> <span class="st">"Cochabamba"</span>,</span>
-<span id="cb19-56"><a href="#cb19-56"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> name </span>
-<span id="cb19-57"><a href="#cb19-57"></a>  ))</span>
-<span id="cb19-58"><a href="#cb19-58"></a></span>
-<span id="cb19-59"><a href="#cb19-59"></a>bol_mpi_cleaned <span class="ot">&lt;-</span> bol_mpi <span class="sc">%&gt;%</span></span>
-<span id="cb19-60"><a href="#cb19-60"></a>  <span class="fu">rename</span>(<span class="at">name_cleaned =</span> <span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span>
-<span id="cb19-61"><a href="#cb19-61"></a><span class="in">```</span></span>
-<span id="cb19-62"><a href="#cb19-62"></a></span>
-<span id="cb19-65"><a href="#cb19-65"></a><span class="in">```{r}</span></span>
-<span id="cb19-66"><a href="#cb19-66"></a>bolivia_mpi_map <span class="ot">&lt;-</span> bolivia_shape_cleaned <span class="sc">%&gt;%</span></span>
-<span id="cb19-67"><a href="#cb19-67"></a>  <span class="fu">left_join</span>(bol_mpi_cleaned, <span class="at">by =</span> <span class="st">"name_cleaned"</span>)</span>
-<span id="cb19-68"><a href="#cb19-68"></a><span class="in">```</span></span>
-<span id="cb19-69"><a href="#cb19-69"></a></span>
-<span id="cb19-72"><a href="#cb19-72"></a><span class="in">```{r}</span></span>
-<span id="cb19-73"><a href="#cb19-73"></a><span class="fu">ggplot</span>(bolivia_mpi_map) <span class="sc">+</span></span>
-<span id="cb19-74"><a href="#cb19-74"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> X.indicator.mpi), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb19-75"><a href="#cb19-75"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
-<span id="cb19-76"><a href="#cb19-76"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multidimensional Poverty Index (MPI) across departments in Bolivia"</span>,</span>
-<span id="cb19-77"><a href="#cb19-77"></a>       <span class="at">subtitle =</span> <span class="st">"Higher MPI values indicate greater multidimensional poverty"</span>,</span>
-<span id="cb19-78"><a href="#cb19-78"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>,</span>
-<span id="cb19-79"><a href="#cb19-79"></a>       <span class="at">caption =</span> <span class="st">"Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index"</span>) <span class="sc">+</span></span>
-<span id="cb19-80"><a href="#cb19-80"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb19-81"><a href="#cb19-81"></a>  <span class="fu">theme</span>(</span>
-<span id="cb19-82"><a href="#cb19-82"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb19-83"><a href="#cb19-83"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb19-84"><a href="#cb19-84"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb19-85"><a href="#cb19-85"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb19-86"><a href="#cb19-86"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb19-87"><a href="#cb19-87"></a>    </span>
-<span id="cb19-88"><a href="#cb19-88"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb19-89"><a href="#cb19-89"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb19-90"><a href="#cb19-90"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>() </span>
-<span id="cb19-91"><a href="#cb19-91"></a>  )</span>
-<span id="cb19-92"><a href="#cb19-92"></a><span class="in">```</span></span>
-<span id="cb19-93"><a href="#cb19-93"></a></span>
-<span id="cb19-94"><a href="#cb19-94"></a>The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.</span>
-<span id="cb19-95"><a href="#cb19-95"></a></span>
-<span id="cb19-96"><a href="#cb19-96"></a>Through this Chloropleth map we can notice how there is indeed a difference in MPI Index as almost all of the Departments have a different color than others, The darker shades of purple, representing lower MPI values (closer to 0.02), appear concentrated in the central and eastern parts of the country. This is interesting because this is the largest state in the country and one would expect that along with the amount of its population its MPI value would be higher</span>
-<span id="cb19-97"><a href="#cb19-97"></a></span>
-<span id="cb19-98"><a href="#cb19-98"></a>The southern and northwestern departments tend to have higher MPI values, suggesting a larger proportion of their population faces deprivations across health, education, and living standards. This is suprising due to the perceived wealth that some of its major cities demonstrate.</span>
-<span id="cb19-99"><a href="#cb19-99"></a></span>
-<span id="cb19-100"><a href="#cb19-100"></a>Generally, although the map showcases a variation in the Multidimension Poverty Index across the departments, it is nice as a Bolivian to see an overall "positive" trend in the entire country.</span>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="an">title:</span><span class="co"> "Solo Project"</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">---</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a>---</span>
+<span id="cb12-7"><a href="#cb12-7"></a>execute:</span>
+<span id="cb12-8"><a href="#cb12-8"></a>  echo: true</span>
+<span id="cb12-9"><a href="#cb12-9"></a>  warning: false</span>
+<span id="cb12-10"><a href="#cb12-10"></a>  error: false</span>
+<span id="cb12-11"><a href="#cb12-11"></a></span>
+<span id="cb12-12"><a href="#cb12-12"></a>format:</span>
+<span id="cb12-13"><a href="#cb12-13"></a>  html:</span>
+<span id="cb12-14"><a href="#cb12-14"></a>    code-fold: true</span>
+<span id="cb12-15"><a href="#cb12-15"></a>---</span>
+<span id="cb12-16"><a href="#cb12-16"></a></span>
+<span id="cb12-17"><a href="#cb12-17"></a></span>
+<span id="cb12-18"><a href="#cb12-18"></a><span class="in">```</span></span>
+<span id="cb12-19"><a href="#cb12-19"></a></span>
+<span id="cb12-20"><a href="#cb12-20"></a></span>
+<span id="cb12-21"><a href="#cb12-21"></a><span class="in"># Multi Dimensional Poverty index across Bolivia </span></span>
+<span id="cb12-22"><a href="#cb12-22"></a></span>
+<span id="cb12-23"><a href="#cb12-23"></a><span class="in">Based on data compiled in 2016 regarding poverty index I wanted to test my skills in a dataset from Bolivia which described the Poverty index by each department(state equivalent) in Bolivia.</span></span>
+<span id="cb12-24"><a href="#cb12-24"></a></span>
+<span id="cb12-25"><a href="#cb12-25"></a><span class="in">Research question: What are the Multi Dimensional Poverty Index across each state in Bolivia?</span></span>
+<span id="cb12-26"><a href="#cb12-26"></a></span>
+<span id="cb12-27"><a href="#cb12-27"></a></span>
+<span id="cb12-30"><a href="#cb12-30"></a><span class="in">```{r}</span></span>
+<span id="cb12-31"><a href="#cb12-31"></a><span class="in">library(sf)</span></span>
+<span id="cb12-32"><a href="#cb12-32"></a><span class="in">library(tidyverse)</span></span>
+<span id="cb12-33"><a href="#cb12-33"></a><span class="in">library(viridis)</span></span>
+<span id="cb12-34"><a href="#cb12-34"></a></span>
+<span id="cb12-35"><a href="#cb12-35"></a><span class="in">bolivia_shape &lt;- read_sf("/Users/pablojimenez/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bo_shp/bo.shp")</span></span>
+<span id="cb12-36"><a href="#cb12-36"></a></span>
+<span id="cb12-37"><a href="#cb12-37"></a><span class="in">print(bolivia_shape)</span></span>
+<span id="cb12-38"><a href="#cb12-38"></a></span>
+<span id="cb12-39"><a href="#cb12-39"></a><span class="in"># bol_mpi &lt;- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", header=FALSE, comment.char="#")</span></span>
+<span id="cb12-40"><a href="#cb12-40"></a></span>
+<span id="cb12-41"><a href="#cb12-41"></a><span class="in">bol_mpi &lt;- read.csv("~/Desktop/CS 2024/GitHub/portfolio-pablojimenez-vs/data/bol_mpi.csv", skip = 1, header = TRUE)</span></span>
+<span id="cb12-42"><a href="#cb12-42"></a></span>
+<span id="cb12-43"><a href="#cb12-43"></a><span class="in">bol_mpi &lt;- bol_mpi[-1, ]</span></span>
+<span id="cb12-44"><a href="#cb12-44"></a></span>
+<span id="cb12-45"><a href="#cb12-45"></a><span class="in">view(bol_mpi)</span></span>
+<span id="cb12-46"><a href="#cb12-46"></a><span class="in">```</span></span>
+<span id="cb12-47"><a href="#cb12-47"></a></span>
+<span id="cb12-50"><a href="#cb12-50"></a><span class="in">```{r}</span></span>
+<span id="cb12-51"><a href="#cb12-51"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb12-52"><a href="#cb12-52"></a></span>
+<span id="cb12-53"><a href="#cb12-53"></a><span class="fu">ggplot</span>(bolivia_shape) <span class="sc">+</span></span>
+<span id="cb12-54"><a href="#cb12-54"></a>  <span class="fu">geom_sf</span>()</span>
+<span id="cb12-55"><a href="#cb12-55"></a></span>
+<span id="cb12-56"><a href="#cb12-56"></a><span class="fu">unique</span>(bol_mpi<span class="sc">$</span><span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span>
+<span id="cb12-57"><a href="#cb12-57"></a></span>
+<span id="cb12-58"><a href="#cb12-58"></a><span class="fu">unique</span>(bolivia_shape<span class="sc">$</span>name)</span>
+<span id="cb12-59"><a href="#cb12-59"></a></span>
+<span id="cb12-60"><a href="#cb12-60"></a>bolivia_shape_cleaned <span class="ot">&lt;-</span> bolivia_shape <span class="sc">%&gt;%</span></span>
+<span id="cb12-61"><a href="#cb12-61"></a>  <span class="fu">mutate</span>(<span class="at">name_cleaned =</span> <span class="fu">case_when</span>(</span>
+<span id="cb12-62"><a href="#cb12-62"></a>    name <span class="sc">==</span> <span class="st">"La Paz"</span> <span class="sc">~</span> <span class="st">"La Paz"</span>,</span>
+<span id="cb12-63"><a href="#cb12-63"></a>    name <span class="sc">==</span> <span class="st">"Oruro"</span> <span class="sc">~</span> <span class="st">"Oruro"</span>,</span>
+<span id="cb12-64"><a href="#cb12-64"></a>    name <span class="sc">==</span> <span class="st">"Potosí"</span> <span class="sc">~</span> <span class="st">"Potosi"</span>,</span>
+<span id="cb12-65"><a href="#cb12-65"></a>    name <span class="sc">==</span> <span class="st">"Tarija"</span> <span class="sc">~</span> <span class="st">"Tarija"</span>,</span>
+<span id="cb12-66"><a href="#cb12-66"></a>    name <span class="sc">==</span> <span class="st">"Santa Cruz"</span> <span class="sc">~</span> <span class="st">"Santa Cruz"</span>,</span>
+<span id="cb12-67"><a href="#cb12-67"></a>    name <span class="sc">==</span> <span class="st">"Chuquisaca"</span> <span class="sc">~</span> <span class="st">"Chuquisaca"</span>,</span>
+<span id="cb12-68"><a href="#cb12-68"></a>    name <span class="sc">==</span> <span class="st">"Pando"</span> <span class="sc">~</span> <span class="st">"Pando"</span>,</span>
+<span id="cb12-69"><a href="#cb12-69"></a>    name <span class="sc">==</span> <span class="st">"El Beni"</span> <span class="sc">~</span> <span class="st">"Beni"</span>,</span>
+<span id="cb12-70"><a href="#cb12-70"></a>    name <span class="sc">==</span> <span class="st">"Cochabamba"</span> <span class="sc">~</span> <span class="st">"Cochabamba"</span>,</span>
+<span id="cb12-71"><a href="#cb12-71"></a>    <span class="cn">TRUE</span> <span class="sc">~</span> name </span>
+<span id="cb12-72"><a href="#cb12-72"></a>  ))</span>
+<span id="cb12-73"><a href="#cb12-73"></a></span>
+<span id="cb12-74"><a href="#cb12-74"></a>bol_mpi_cleaned <span class="ot">&lt;-</span> bol_mpi <span class="sc">%&gt;%</span></span>
+<span id="cb12-75"><a href="#cb12-75"></a>  <span class="fu">rename</span>(<span class="at">name_cleaned =</span> <span class="st">`</span><span class="at">X.adm1.name</span><span class="st">`</span>)</span>
+<span id="cb12-76"><a href="#cb12-76"></a><span class="in">```</span></span>
+<span id="cb12-77"><a href="#cb12-77"></a></span>
+<span id="cb12-80"><a href="#cb12-80"></a><span class="in">```{r}</span></span>
+<span id="cb12-81"><a href="#cb12-81"></a>bolivia_mpi_map <span class="ot">&lt;-</span> bolivia_shape_cleaned <span class="sc">%&gt;%</span></span>
+<span id="cb12-82"><a href="#cb12-82"></a>  <span class="fu">left_join</span>(bol_mpi_cleaned, <span class="at">by =</span> <span class="st">"name_cleaned"</span>)</span>
+<span id="cb12-83"><a href="#cb12-83"></a><span class="in">```</span></span>
+<span id="cb12-84"><a href="#cb12-84"></a></span>
+<span id="cb12-87"><a href="#cb12-87"></a><span class="in">```{r}</span></span>
+<span id="cb12-88"><a href="#cb12-88"></a><span class="fu">ggplot</span>(bolivia_mpi_map) <span class="sc">+</span></span>
+<span id="cb12-89"><a href="#cb12-89"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> X.indicator.mpi), <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">linewidth =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb12-90"><a href="#cb12-90"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
+<span id="cb12-91"><a href="#cb12-91"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multidimensional Poverty Index (MPI) across departments in Bolivia"</span>,</span>
+<span id="cb12-92"><a href="#cb12-92"></a>       <span class="at">subtitle =</span> <span class="st">"Higher MPI values indicate greater multidimensional poverty"</span>,</span>
+<span id="cb12-93"><a href="#cb12-93"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>,</span>
+<span id="cb12-94"><a href="#cb12-94"></a>       <span class="at">caption =</span> <span class="st">"Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index"</span>) <span class="sc">+</span></span>
+<span id="cb12-95"><a href="#cb12-95"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb12-96"><a href="#cb12-96"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-97"><a href="#cb12-97"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb12-98"><a href="#cb12-98"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb12-99"><a href="#cb12-99"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-100"><a href="#cb12-100"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-101"><a href="#cb12-101"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-102"><a href="#cb12-102"></a>    </span>
+<span id="cb12-103"><a href="#cb12-103"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-104"><a href="#cb12-104"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb12-105"><a href="#cb12-105"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>() </span>
+<span id="cb12-106"><a href="#cb12-106"></a>  )</span>
+<span id="cb12-107"><a href="#cb12-107"></a><span class="in">```</span></span>
+<span id="cb12-108"><a href="#cb12-108"></a></span>
+<span id="cb12-109"><a href="#cb12-109"></a>The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.</span>
+<span id="cb12-110"><a href="#cb12-110"></a></span>
+<span id="cb12-111"><a href="#cb12-111"></a>Through this Chloropleth map we can notice how there is indeed a difference in MPI Index as almost all of the Departments have a different color than others, The darker shades of purple, representing lower MPI values (closer to 0.02), appear concentrated in the central and eastern parts of the country. This is interesting because this is the largest state in the country and one would expect that along with the amount of its population its MPI value would be higher</span>
+<span id="cb12-112"><a href="#cb12-112"></a></span>
+<span id="cb12-113"><a href="#cb12-113"></a>The southern and northwestern departments tend to have higher MPI values, suggesting a larger proportion of their population faces deprivations across health, education, and living standards. This is suprising due to the perceived wealth that some of its major cities demonstrate.</span>
+<span id="cb12-114"><a href="#cb12-114"></a></span>
+<span id="cb12-115"><a href="#cb12-115"></a>Generally, although the map showcases a variation in the Multidimension Poverty Index across the departments, it is nice as a Bolivian to see an overall "positive" trend in the entire country.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
