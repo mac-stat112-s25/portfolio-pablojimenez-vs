@@ -3,6 +3,21 @@ title: "Solo Project"
 format: html
 ---
 
+---
+execute:
+  echo: true
+  warning: false
+  error: false
+
+format:
+  html:
+    code-fold: true
+---
+
+
+```
+
+
 # Multi Dimensional Poverty index across Bolivia 
 
 Based on data compiled in 2016 regarding poverty index I wanted to test my skills in a dataset from Bolivia which described the Poverty index by each department(state equivalent) in Bolivia.

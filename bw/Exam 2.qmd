@@ -3,6 +3,18 @@ title: "Exam 2"
 format: html
 ---
 
+---
+execute:
+  echo: true
+  warning: false
+  error: false
+
+format:
+  html:
+    code-fold: true
+---
+
+
 # Background
 
 ```{r}
