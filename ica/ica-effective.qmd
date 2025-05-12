@@ -22,8 +22,6 @@ For more information about the topics covered in this chapter, refer to the reso
 -   [Telling a story (Chp 29, html)](https://clauswilke.com/dataviz/telling-a-story.html) by Wilke
 :::
 
-
-
 ## Review
 
 ### Benefits of Visualizations {-}
@@ -242,11 +240,11 @@ When we're including our plot in an article, paper, book, or other similar outle
 -   Include your x-axis, y-axis, and legend labels from Part a.
 -   Render your Rmd and check out how the figure caption appears.
 ```{r}
-#| fig-cap: "???"
+#| fig-cap: "Temperatures across Australian locations "
 
-ggplot(weather, aes(y = temp3pm, x = temp9am, color = location)) + 
-  geom_point() + 
-  labs(x = "???", y = "???", color = "???")  
+ggplot(weather, aes(y = temp3pm, x = temp9am, color = location)) +
+  geom_point() +
+  labs(x = "9am Temp (°C)", y = "3pm Temp (°C)", color = "Location")
 ```
 
 ```{r}
@@ -269,11 +267,11 @@ Let's now make a graphic more accessible.
 
 ```{r}
 #| fig-cap: "Density plots of 3pm temperatures in 3 Australian locations."
-#| fig-alt: "???"
+#| fig-alt: "Density plots showing the distribution of 3pm temperatures for Hobart, Uluru, and Wollongong in Australia.The x-axis represents the 3pm temperature in degrees Celsius. Data source: https://mac-stat.github.io/data/weather_3_locations.csv"
 
-ggplot(weather, aes(x = temp3pm, fill = location)) + 
-  geom_density(alpha = 0.5) + 
-  labs(x = "3pm temperature (Celsius)")  
+ggplot(weather, aes(x = temp3pm, fill = location)) +
+  geom_density(alpha = 0.5) +
+  labs(x = "3pm temperature (Celsius)")
 ```
 
 #### Part a {.unnumbered}
@@ -321,6 +319,8 @@ Color is another important accessibility consideration. Let's check out the colo
 -   Click the various simulator buttons (eg: Red-Weak/Protanomaly) to check out how the colors in this plot might appear to others.
 -   Summarize what you learn. What impact might our color choices have on one's ability to interpret the viz?
 
+It would have definetely changed their response due to the different interpretation they would get from the colors.
+
 #### Part c {.unnumbered}
 
 We can change our color schemes! There are many [color-blind friendly palettes in R](https://cran.r-project.org/web/packages/colorBlindness/vignettes/colorBlindness.html). In the future, we'll set a default, more color-blind friendly color theme at the top of our Rmds. We can also do this individually for any plot that uses color. Run the chunks below to explore various options.
@@ -336,16 +336,11 @@ ggplot(weather, aes(x = temp3pm, fill = location)) +
 # In the color scale line:
 # Change "fill" to "color" since we use color in the aes()
 # Change "d" (discrete) to "c" (continuous) since maxtemp is on a continuous scale
-ggplot(weather, aes(y = temp3pm, x = temp9am, color = maxtemp)) + 
+ggplot(weather, aes(y = temp3pm, x = temp9am, fill(maxtemp) )) + 
   geom_point(alpha = 0.5) + 
   labs(x = "3pm temperature (Celsius)") + 
   scale_color_viridis_c()
 ```
-
-\
-\
-\
-\
 
 ### Exercise 3: Ethics {.unnumbered}
 
@@ -428,10 +423,10 @@ Think about the following questions:
 -   Can the data graphic be described in terms of the Grammar of Graphics (frame, glyphs, aesthetics, facet, scale, guide)? If so, please describe.
 -   Critique and/or praise the visualization choices made by the designer. Do they work? Are they misleading? Thought-provoking? Are there things that you would have done differently?
 
-\
-\
-\
-\
+```{r}
+
+```
+
 
 ### Exercise 5: Design Details {.unnumbered}
 
