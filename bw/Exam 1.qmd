@@ -28,7 +28,7 @@ n_distinct(fc$`country`)
 Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis
 
 ```{R}
-Food_Category_Consumption <- ggplot(fc, aes(x = food_category, y = consumption)) + 
+ggplot(fc, aes(x = food_category, y = consumption)) + 
   geom_col() +  
   labs(title = "Total Consumption by Food Category",  
        x = "Food Category", 
@@ -36,7 +36,4 @@ Food_Category_Consumption <- ggplot(fc, aes(x = food_category, y = consumption))
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
-```{r}
-print(Food_Category_Consumption)
-```
 

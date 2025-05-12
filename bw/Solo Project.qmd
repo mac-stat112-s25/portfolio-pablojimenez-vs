@@ -81,8 +81,6 @@ ggplot(bolivia_mpi_map) +
     axis.title.y = element_blank(), 
     axis.ticks.y = element_blank() 
   )
-
-# print(mpi_map)
 ```
 
 The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.

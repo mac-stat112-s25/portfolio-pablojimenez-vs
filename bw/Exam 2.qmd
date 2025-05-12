@@ -63,7 +63,7 @@ fcc <- fc %>%
 world <- ne_countries(returnclass = "sf") %>%
   select(name, geometry)
 
-food_consumption_map <- world %>%
+world %>%
   left_join(fcc %>% select(country, consumption, food_category), 
             join_by(name == country)) %>%
   filter(!is.na(consumption)) %>%
@@ -83,7 +83,4 @@ food_consumption_map <- world %>%
   )
 ```
 
-```{r}
-print(food_consumption_map)
-```
 
