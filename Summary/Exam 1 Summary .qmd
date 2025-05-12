@@ -5,8 +5,8 @@ format: html
 
 # Exam 1 Summary Sheet
 
-![](Exam 1 Summary sheet.pdf){width="11in" height="0.91in"}
+![](Exam 1 Summary sheet.pdf)
 
 # Exam 1
 
-![](Exam 1 - Pablo Jiménez.pdf){width="105" height="8.5"}
+![](Exam 1 - Pablo Jiménez.pdf)
