@@ -81,8 +81,9 @@ food_consumption_map <- world %>%
     strip.text = element_text(size = 10),
     plot.title = element_text(hjust = 0.5)
   )
-
-print(food_consumption_map)
 ```
 
+```{r}
+print(food_consumption_map)
+```
 

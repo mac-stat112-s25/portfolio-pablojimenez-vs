@@ -62,7 +62,7 @@ bolivia_mpi_map <- bolivia_shape_cleaned %>%
 ```
 
 ```{r}
-mpi_map <- ggplot(bolivia_mpi_map) +
+ggplot(bolivia_mpi_map) +
   geom_sf(aes(fill = X.indicator.mpi), color = "black", linewidth = 0.2) +
   scale_fill_viridis_c(option = "plasma", name = "MPI") +
   labs(title = "Multidimensional Poverty Index (MPI) across departments in Bolivia",
@@ -82,7 +82,7 @@ mpi_map <- ggplot(bolivia_mpi_map) +
     axis.ticks.y = element_blank() 
   )
 
-print(mpi_map)
+# print(mpi_map)
 ```
 
 The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.
