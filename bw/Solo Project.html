@@ -59,7 +59,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../bw/Food Consumption 2.html" rel="next">
+<link href="../bw/Exam 2.html" rel="next">
 <link href="../bw/Exam 1.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -194,7 +194,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../bw/Food Consumption 2.html" class="sidebar-item-text sidebar-link">
+  <a href="../bw/Exam 2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exam_2</span></span></a>
   </div>
 </li>
@@ -235,47 +235,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../ica/ica-effective.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Effective Viz</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../ica/Wrangling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Wrangling</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/Dates.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Dates</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Dates</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/Reshaping.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Reshaping</span></span></a>
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Reshaping</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/Joining.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Joining</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Joining</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/Factors.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Factors</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Factors</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/Strings.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Strings</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../ica/Data_Import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Data Import</span></span></a>
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Data Import</span></span></a>
   </div>
 </li>
       </ul>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Summary</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show"></ul>
 </li>
     </ul>
 </div>
@@ -412,12 +428,22 @@ Geodetic CRS:  WGS 84
 <span id="cb18-3"><a href="#cb18-3"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
 <span id="cb18-4"><a href="#cb18-4"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multidimensional Poverty Index (MPI) across departments in Bolivia"</span>,</span>
 <span id="cb18-5"><a href="#cb18-5"></a>       <span class="at">subtitle =</span> <span class="st">"Higher MPI values indicate greater multidimensional poverty"</span>,</span>
-<span id="cb18-6"><a href="#cb18-6"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb18-9"><a href="#cb18-9"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb18-10"><a href="#cb18-10"></a></span>
-<span id="cb18-11"><a href="#cb18-11"></a><span class="fu">print</span>(mpi_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-6"><a href="#cb18-6"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7"></a>       <span class="at">caption =</span> <span class="st">"Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index"</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb18-9"><a href="#cb18-9"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-10"><a href="#cb18-10"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb18-11"><a href="#cb18-11"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb18-12"><a href="#cb18-12"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-13"><a href="#cb18-13"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-14"><a href="#cb18-14"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-15"><a href="#cb18-15"></a>    </span>
+<span id="cb18-16"><a href="#cb18-16"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-17"><a href="#cb18-17"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb18-18"><a href="#cb18-18"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>() </span>
+<span id="cb18-19"><a href="#cb18-19"></a>  )</span>
+<span id="cb18-20"><a href="#cb18-20"></a></span>
+<span id="cb18-21"><a href="#cb18-21"></a><span class="fu">print</span>(mpi_map)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Solo-Project_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
@@ -1058,7 +1084,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../bw/Food Consumption 2.html" class="pagination-link" aria-label="Exam_2">
+      <a href="../bw/Exam 2.html" class="pagination-link" aria-label="Exam_2">
         <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Exam_2</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -1132,21 +1158,31 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-75"><a href="#cb19-75"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">name =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
 <span id="cb19-76"><a href="#cb19-76"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Multidimensional Poverty Index (MPI) across departments in Bolivia"</span>,</span>
 <span id="cb19-77"><a href="#cb19-77"></a>       <span class="at">subtitle =</span> <span class="st">"Higher MPI values indicate greater multidimensional poverty"</span>,</span>
-<span id="cb19-78"><a href="#cb19-78"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>) <span class="sc">+</span></span>
-<span id="cb19-79"><a href="#cb19-79"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb19-80"><a href="#cb19-80"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
-<span id="cb19-81"><a href="#cb19-81"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>))</span>
-<span id="cb19-82"><a href="#cb19-82"></a></span>
-<span id="cb19-83"><a href="#cb19-83"></a><span class="fu">print</span>(mpi_map)</span>
-<span id="cb19-84"><a href="#cb19-84"></a><span class="in">```</span></span>
-<span id="cb19-85"><a href="#cb19-85"></a></span>
-<span id="cb19-86"><a href="#cb19-86"></a>The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.</span>
-<span id="cb19-87"><a href="#cb19-87"></a></span>
-<span id="cb19-88"><a href="#cb19-88"></a>Through this Chloropleth map we can notice how there is indeed a difference in MPI Index as almost all of the Departments have a different color than others, The darker shades of purple, representing lower MPI values (closer to 0.02), appear concentrated in the central and eastern parts of the country. This is interesting because this is the largest state in the country and one would expect that along with the amount of its population its MPI value would be higher</span>
-<span id="cb19-89"><a href="#cb19-89"></a></span>
-<span id="cb19-90"><a href="#cb19-90"></a>The southern and northwestern departments tend to have higher MPI values, suggesting a larger proportion of their population faces deprivations across health, education, and living standards. This is suprising due to the perceived wealth that some of its major cities demonstrate.</span>
-<span id="cb19-91"><a href="#cb19-91"></a></span>
-<span id="cb19-92"><a href="#cb19-92"></a>Generally, although the map showcases a variation in the Multidimension Poverty Index across the departments, it is nice as a Bolivian to see an overall "positive" trend in the entire country.</span>
+<span id="cb19-78"><a href="#cb19-78"></a>       <span class="at">fill =</span> <span class="st">"MPI"</span>,</span>
+<span id="cb19-79"><a href="#cb19-79"></a>       <span class="at">caption =</span> <span class="st">"Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index"</span>) <span class="sc">+</span></span>
+<span id="cb19-80"><a href="#cb19-80"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb19-81"><a href="#cb19-81"></a>  <span class="fu">theme</span>(</span>
+<span id="cb19-82"><a href="#cb19-82"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb19-83"><a href="#cb19-83"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>),</span>
+<span id="cb19-84"><a href="#cb19-84"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb19-85"><a href="#cb19-85"></a>    <span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb19-86"><a href="#cb19-86"></a>    <span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-87"><a href="#cb19-87"></a>    </span>
+<span id="cb19-88"><a href="#cb19-88"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb19-89"><a href="#cb19-89"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb19-90"><a href="#cb19-90"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>() </span>
+<span id="cb19-91"><a href="#cb19-91"></a>  )</span>
+<span id="cb19-92"><a href="#cb19-92"></a></span>
+<span id="cb19-93"><a href="#cb19-93"></a><span class="fu">print</span>(mpi_map)</span>
+<span id="cb19-94"><a href="#cb19-94"></a><span class="in">```</span></span>
+<span id="cb19-95"><a href="#cb19-95"></a></span>
+<span id="cb19-96"><a href="#cb19-96"></a>The Mutidimensional Poverty value represents the avergae proportion in deprivation experienced by poor people in each deparment which relays in multiple factors and not just in their amount of income.</span>
+<span id="cb19-97"><a href="#cb19-97"></a></span>
+<span id="cb19-98"><a href="#cb19-98"></a>Through this Chloropleth map we can notice how there is indeed a difference in MPI Index as almost all of the Departments have a different color than others, The darker shades of purple, representing lower MPI values (closer to 0.02), appear concentrated in the central and eastern parts of the country. This is interesting because this is the largest state in the country and one would expect that along with the amount of its population its MPI value would be higher</span>
+<span id="cb19-99"><a href="#cb19-99"></a></span>
+<span id="cb19-100"><a href="#cb19-100"></a>The southern and northwestern departments tend to have higher MPI values, suggesting a larger proportion of their population faces deprivations across health, education, and living standards. This is suprising due to the perceived wealth that some of its major cities demonstrate.</span>
+<span id="cb19-101"><a href="#cb19-101"></a></span>
+<span id="cb19-102"><a href="#cb19-102"></a>Generally, although the map showcases a variation in the Multidimension Poverty Index across the departments, it is nice as a Bolivian to see an overall "positive" trend in the entire country.</span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
