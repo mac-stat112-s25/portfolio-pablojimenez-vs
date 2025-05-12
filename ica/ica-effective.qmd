@@ -423,9 +423,6 @@ Think about the following questions:
 -   Can the data graphic be described in terms of the Grammar of Graphics (frame, glyphs, aesthetics, facet, scale, guide)? If so, please describe.
 -   Critique and/or praise the visualization choices made by the designer. Do they work? Are they misleading? Thought-provoking? Are there things that you would have done differently?
 
-```{r}
-
-```
 
 
 ### Exercise 5: Design Details {.unnumbered}
