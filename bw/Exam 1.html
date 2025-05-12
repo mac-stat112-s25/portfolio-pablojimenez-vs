@@ -375,15 +375,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption)) <span class="sc">+</span> </span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>Food_Category_Consumption <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption)) <span class="sc">+</span> </span>
 <span id="cb10-2"><a href="#cb10-2"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>  </span>
 <span id="cb10-3"><a href="#cb10-3"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
 <span id="cb10-4"><a href="#cb10-4"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
 <span id="cb10-5"><a href="#cb10-5"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>) <span class="sc">+</span>  </span>
 <span id="cb10-6"><a href="#cb10-6"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">print</span>(Food_Category_Consumption)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="Exam-1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="Exam-1_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -1023,43 +1026,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
-<div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1"></a><span class="co">---</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="an">title:</span><span class="co"> "Exam 1"</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="an">format:</span><span class="co"> html</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="co">---</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a></span>
-<span id="cb11-6"><a href="#cb11-6"></a>Loading the packages to use them later</span>
-<span id="cb11-7"><a href="#cb11-7"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="in">```{R}</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="fu">library</span>(<span class="st">"tidytuesdayR"</span>)</span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="in">```</span></span>
-<span id="cb11-14"><a href="#cb11-14"></a></span>
-<span id="cb11-15"><a href="#cb11-15"></a>Storing the and organizing the data without redundances in the columns titles</span>
-<span id="cb11-16"><a href="#cb11-16"></a></span>
-<span id="cb11-19"><a href="#cb11-19"></a><span class="in">```{R}</span></span>
-<span id="cb11-20"><a href="#cb11-20"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">'2020-02-18'</span>)</span>
-<span id="cb11-21"><a href="#cb11-21"></a>fc <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>food_consumption</span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="in">```</span></span>
-<span id="cb11-23"><a href="#cb11-23"></a></span>
-<span id="cb11-24"><a href="#cb11-24"></a>Distinguishing the amount of food types within the food_category column</span>
-<span id="cb11-25"><a href="#cb11-25"></a></span>
-<span id="cb11-28"><a href="#cb11-28"></a><span class="in">```{R}</span></span>
-<span id="cb11-29"><a href="#cb11-29"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">food_category</span><span class="st">`</span>)</span>
-<span id="cb11-30"><a href="#cb11-30"></a></span>
-<span id="cb11-31"><a href="#cb11-31"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">country</span><span class="st">`</span>)</span>
-<span id="cb11-32"><a href="#cb11-32"></a><span class="in">```</span></span>
-<span id="cb11-33"><a href="#cb11-33"></a></span>
-<span id="cb11-34"><a href="#cb11-34"></a>Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis</span>
-<span id="cb11-35"><a href="#cb11-35"></a></span>
-<span id="cb11-38"><a href="#cb11-38"></a><span class="in">```{R}</span></span>
-<span id="cb11-39"><a href="#cb11-39"></a><span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption)) <span class="sc">+</span> </span>
-<span id="cb11-40"><a href="#cb11-40"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>  </span>
-<span id="cb11-41"><a href="#cb11-41"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
-<span id="cb11-42"><a href="#cb11-42"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
-<span id="cb11-43"><a href="#cb11-43"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>) <span class="sc">+</span>  </span>
-<span id="cb11-44"><a href="#cb11-44"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb11-45"><a href="#cb11-45"></a><span class="in">```</span></span>
+<div class="sourceCode" id="cb12" data-shortcodes="false"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">---</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="an">title:</span><span class="co"> "Exam 1"</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="co">---</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a></span>
+<span id="cb12-6"><a href="#cb12-6"></a>Loading the packages to use them later</span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="in">```{R}</span></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="fu">library</span>(<span class="st">"tidytuesdayR"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb12-13"><a href="#cb12-13"></a><span class="in">```</span></span>
+<span id="cb12-14"><a href="#cb12-14"></a></span>
+<span id="cb12-15"><a href="#cb12-15"></a>Storing the and organizing the data without redundances in the columns titles</span>
+<span id="cb12-16"><a href="#cb12-16"></a></span>
+<span id="cb12-19"><a href="#cb12-19"></a><span class="in">```{R}</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">'2020-02-18'</span>)</span>
+<span id="cb12-21"><a href="#cb12-21"></a>fc <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>food_consumption</span>
+<span id="cb12-22"><a href="#cb12-22"></a><span class="in">```</span></span>
+<span id="cb12-23"><a href="#cb12-23"></a></span>
+<span id="cb12-24"><a href="#cb12-24"></a>Distinguishing the amount of food types within the food_category column</span>
+<span id="cb12-25"><a href="#cb12-25"></a></span>
+<span id="cb12-28"><a href="#cb12-28"></a><span class="in">```{R}</span></span>
+<span id="cb12-29"><a href="#cb12-29"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">food_category</span><span class="st">`</span>)</span>
+<span id="cb12-30"><a href="#cb12-30"></a></span>
+<span id="cb12-31"><a href="#cb12-31"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">country</span><span class="st">`</span>)</span>
+<span id="cb12-32"><a href="#cb12-32"></a><span class="in">```</span></span>
+<span id="cb12-33"><a href="#cb12-33"></a></span>
+<span id="cb12-34"><a href="#cb12-34"></a>Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis</span>
+<span id="cb12-35"><a href="#cb12-35"></a></span>
+<span id="cb12-38"><a href="#cb12-38"></a><span class="in">```{R}</span></span>
+<span id="cb12-39"><a href="#cb12-39"></a>Food_Category_Consumption <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption)) <span class="sc">+</span> </span>
+<span id="cb12-40"><a href="#cb12-40"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>  </span>
+<span id="cb12-41"><a href="#cb12-41"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
+<span id="cb12-42"><a href="#cb12-42"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
+<span id="cb12-43"><a href="#cb12-43"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>) <span class="sc">+</span>  </span>
+<span id="cb12-44"><a href="#cb12-44"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
+<span id="cb12-45"><a href="#cb12-45"></a><span class="in">```</span></span>
+<span id="cb12-46"><a href="#cb12-46"></a></span>
+<span id="cb12-49"><a href="#cb12-49"></a><span class="in">```{r}</span></span>
+<span id="cb12-50"><a href="#cb12-50"></a><span class="fu">print</span>(Food_Category_Consumption)</span>
+<span id="cb12-51"><a href="#cb12-51"></a><span class="in">```</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
