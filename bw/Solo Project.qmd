@@ -67,10 +67,20 @@ mpi_map <- ggplot(bolivia_mpi_map) +
   scale_fill_viridis_c(option = "plasma", name = "MPI") +
   labs(title = "Multidimensional Poverty Index (MPI) across departments in Bolivia",
        subtitle = "Higher MPI values indicate greater multidimensional poverty",
-       fill = "MPI") +
+       fill = "MPI",
+       caption = "Source: Bolivia (Plurinational State of) Multi Dimensional Poverty Index") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5),
-        plot.subtitle = element_text(hjust = 0.5))
+  theme(
+    plot.title = element_text(hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    axis.text.x = element_blank(), 
+    axis.title.x = element_blank(), 
+    axis.ticks.x = element_blank(),
+    
+    axis.text.y = element_blank(), 
+    axis.title.y = element_blank(), 
+    axis.ticks.y = element_blank() 
+  )
 
 print(mpi_map)
 ```
