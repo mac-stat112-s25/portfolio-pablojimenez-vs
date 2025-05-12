@@ -196,8 +196,6 @@ In designing your viz, think about *comparison*. Good viz make it easy for peopl
 
 ## Exercises
 
-{{< include activity-instructions.qmd >}}
-
 ### Exercise 1: Professionalism {.unnumbered}
 
 Let's examine weather in 3 Australian locations.

@@ -32,7 +32,7 @@ book:
       - bw/bw-spatial.qmd
       - bw/Exam 1.qmd
       - bw/Solo Project.qmd
-      - bw/Food Consumption 2.qmd
+      - bw/Exam 2.qmd
 
     - part: "In-class Activities"
       chapters: 
