@@ -356,12 +356,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis</p>
 <div class="cell">
-<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption)) <span class="sc">+</span> </span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>  </span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
-<span id="cb7-4"><a href="#cb7-4"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
-<span id="cb7-5"><a href="#cb7-5"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>) <span class="sc">+</span>  </span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details class="code-fold"><summary>Code</summary><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#| fig-width: 22</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption, <span class="at">fill =</span> country)) <span class="sc">+</span> </span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span>  </span>
+<span id="cb7-5"><a href="#cb7-5"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
+<span id="cb7-6"><a href="#cb7-6"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
+<span id="cb7-7"><a href="#cb7-7"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8"></a>       <span class="at">fill =</span> <span class="st">"Country"</span>) <span class="sc">+</span>  </span>
+<span id="cb7-9"><a href="#cb7-9"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb7-10"><a href="#cb7-10"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb7-11"><a href="#cb7-11"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details><div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="Exam-1_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
@@ -1020,42 +1025,46 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-14"><a href="#cb8-14"></a>    code-fold: true</span>
 <span id="cb8-15"><a href="#cb8-15"></a>---</span>
 <span id="cb8-16"><a href="#cb8-16"></a></span>
-<span id="cb8-17"><a href="#cb8-17"></a></span>
+<span id="cb8-17"><a href="#cb8-17"></a>Loading the packages to use them later</span>
 <span id="cb8-18"><a href="#cb8-18"></a></span>
-<span id="cb8-19"><a href="#cb8-19"></a></span>
-<span id="cb8-20"><a href="#cb8-20"></a>Loading the packages to use them later</span>
-<span id="cb8-21"><a href="#cb8-21"></a></span>
-<span id="cb8-24"><a href="#cb8-24"></a><span class="in">```{R}</span></span>
-<span id="cb8-25"><a href="#cb8-25"></a><span class="fu">library</span>(<span class="st">"tidytuesdayR"</span>)</span>
-<span id="cb8-26"><a href="#cb8-26"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
-<span id="cb8-27"><a href="#cb8-27"></a><span class="in">```</span></span>
-<span id="cb8-28"><a href="#cb8-28"></a></span>
-<span id="cb8-29"><a href="#cb8-29"></a>Storing the and organizing the data without redundances in the columns titles</span>
-<span id="cb8-30"><a href="#cb8-30"></a></span>
-<span id="cb8-33"><a href="#cb8-33"></a><span class="in">```{R}</span></span>
-<span id="cb8-34"><a href="#cb8-34"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">'2020-02-18'</span>)</span>
-<span id="cb8-35"><a href="#cb8-35"></a>fc <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>food_consumption</span>
-<span id="cb8-36"><a href="#cb8-36"></a><span class="in">```</span></span>
-<span id="cb8-37"><a href="#cb8-37"></a></span>
-<span id="cb8-38"><a href="#cb8-38"></a>Distinguishing the amount of food types within the food_category column</span>
-<span id="cb8-39"><a href="#cb8-39"></a></span>
-<span id="cb8-42"><a href="#cb8-42"></a><span class="in">```{R}</span></span>
-<span id="cb8-43"><a href="#cb8-43"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">food_category</span><span class="st">`</span>)</span>
+<span id="cb8-21"><a href="#cb8-21"></a><span class="in">```{R}</span></span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="fu">library</span>(<span class="st">"tidytuesdayR"</span>)</span>
+<span id="cb8-23"><a href="#cb8-23"></a><span class="fu">library</span>(<span class="st">"tidyverse"</span>)</span>
+<span id="cb8-24"><a href="#cb8-24"></a><span class="in">```</span></span>
+<span id="cb8-25"><a href="#cb8-25"></a></span>
+<span id="cb8-26"><a href="#cb8-26"></a>Storing the and organizing the data without redundances in the columns titles</span>
+<span id="cb8-27"><a href="#cb8-27"></a></span>
+<span id="cb8-30"><a href="#cb8-30"></a><span class="in">```{R}</span></span>
+<span id="cb8-31"><a href="#cb8-31"></a>tuesdata <span class="ot">&lt;-</span> <span class="fu">tt_load</span>(<span class="st">'2020-02-18'</span>)</span>
+<span id="cb8-32"><a href="#cb8-32"></a>fc <span class="ot">&lt;-</span> tuesdata<span class="sc">$</span>food_consumption</span>
+<span id="cb8-33"><a href="#cb8-33"></a><span class="in">```</span></span>
+<span id="cb8-34"><a href="#cb8-34"></a></span>
+<span id="cb8-35"><a href="#cb8-35"></a>Distinguishing the amount of food types within the food_category column</span>
+<span id="cb8-36"><a href="#cb8-36"></a></span>
+<span id="cb8-39"><a href="#cb8-39"></a><span class="in">```{R}</span></span>
+<span id="cb8-40"><a href="#cb8-40"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">food_category</span><span class="st">`</span>)</span>
+<span id="cb8-41"><a href="#cb8-41"></a></span>
+<span id="cb8-42"><a href="#cb8-42"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">country</span><span class="st">`</span>)</span>
+<span id="cb8-43"><a href="#cb8-43"></a><span class="in">```</span></span>
 <span id="cb8-44"><a href="#cb8-44"></a></span>
-<span id="cb8-45"><a href="#cb8-45"></a><span class="fu">n_distinct</span>(fc<span class="sc">$</span><span class="st">`</span><span class="at">country</span><span class="st">`</span>)</span>
-<span id="cb8-46"><a href="#cb8-46"></a><span class="in">```</span></span>
-<span id="cb8-47"><a href="#cb8-47"></a></span>
-<span id="cb8-48"><a href="#cb8-48"></a>Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis</span>
-<span id="cb8-49"><a href="#cb8-49"></a></span>
-<span id="cb8-52"><a href="#cb8-52"></a><span class="in">```{R}</span></span>
-<span id="cb8-53"><a href="#cb8-53"></a><span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption)) <span class="sc">+</span> </span>
-<span id="cb8-54"><a href="#cb8-54"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span>  </span>
-<span id="cb8-55"><a href="#cb8-55"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
-<span id="cb8-56"><a href="#cb8-56"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
-<span id="cb8-57"><a href="#cb8-57"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>) <span class="sc">+</span>  </span>
-<span id="cb8-58"><a href="#cb8-58"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span>
-<span id="cb8-59"><a href="#cb8-59"></a><span class="in">```</span></span>
-<span id="cb8-60"><a href="#cb8-60"></a></span>
+<span id="cb8-45"><a href="#cb8-45"></a>Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis</span>
+<span id="cb8-46"><a href="#cb8-46"></a></span>
+<span id="cb8-49"><a href="#cb8-49"></a><span class="in">```{R}</span></span>
+<span id="cb8-50"><a href="#cb8-50"></a><span class="co">#| fig-height: 11</span></span>
+<span id="cb8-51"><a href="#cb8-51"></a></span>
+<span id="cb8-52"><a href="#cb8-52"></a><span class="co">#| fig-width: 22</span></span>
+<span id="cb8-53"><a href="#cb8-53"></a></span>
+<span id="cb8-54"><a href="#cb8-54"></a><span class="fu">ggplot</span>(fc, <span class="fu">aes</span>(<span class="at">x =</span> food_category, <span class="at">y =</span> consumption, <span class="at">fill =</span> country)) <span class="sc">+</span> </span>
+<span id="cb8-55"><a href="#cb8-55"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span>  </span>
+<span id="cb8-56"><a href="#cb8-56"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Total Consumption by Food Category"</span>,  </span>
+<span id="cb8-57"><a href="#cb8-57"></a>       <span class="at">x =</span> <span class="st">"Food Category"</span>, </span>
+<span id="cb8-58"><a href="#cb8-58"></a>       <span class="at">y =</span> <span class="st">"Total Consumption"</span>,</span>
+<span id="cb8-59"><a href="#cb8-59"></a>       <span class="at">fill =</span> <span class="st">"Country"</span>) <span class="sc">+</span>  </span>
+<span id="cb8-60"><a href="#cb8-60"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb8-61"><a href="#cb8-61"></a>        <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb8-62"><a href="#cb8-62"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>))</span>
+<span id="cb8-63"><a href="#cb8-63"></a><span class="in">```</span></span>
+<span id="cb8-64"><a href="#cb8-64"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
