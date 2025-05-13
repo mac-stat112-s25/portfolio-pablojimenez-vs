@@ -14,9 +14,6 @@ format:
     code-fold: true
 ---
 
-
-
-
 Loading the packages to use them later
 
 ```{R}
@@ -42,12 +39,19 @@ n_distinct(fc$`country`)
 Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis
 
 ```{R}
-ggplot(fc, aes(x = food_category, y = consumption)) + 
-  geom_col() +  
+#| fig-height: 11
+
+#| fig-width: 22
+
+ggplot(fc, aes(x = food_category, y = consumption, fill = country)) + 
+  geom_col(position = "dodge") +  
   labs(title = "Total Consumption by Food Category",  
        x = "Food Category", 
-       y = "Total Consumption") +  
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+       y = "Total Consumption",
+       fill = "Country") +  
+  theme(axis.text.x = element_text(size = 8, angle = 45, hjust = 1),
+        axis.title = element_text(size = 10),
+        plot.title = element_text(size = 12))
 ```
 
 

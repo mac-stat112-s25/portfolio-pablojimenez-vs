@@ -23,6 +23,7 @@ library(tidyverse)
 library(rnaturalearth)
 library(sf)
 library(dplyr)
+library(ggplot2) 
 ```
 
 ```{r}
@@ -35,7 +36,7 @@ str(fc)
 head(fc, 22)
 ```
 
-# 1. Which are the Countries that consume the most food?
+# 1. Which are the 5 Countries that consume the most food?
 
 ```{r}
 total_consumption_by_country <- fc %>%
@@ -46,9 +47,72 @@ total_consumption_by_country <- fc %>%
 print(total_consumption_by_country)
 ```
 
+```{r}
+#| fig-height: 22
+
+#| fig-width: 11
+
+top_5_countries <- total_consumption_by_country %>%
+  top_n(5, total_consumption)
+
+ggplot(top_5_countries, aes(x = reorder(country, total_consumption), y = total_consumption)) +
+  geom_col() +
+  labs(title = "Total Food Consumption by Top 5 Countries",
+       x = "Country",
+       y = "Total Consumption") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+#| fig-height: 22
+
+#| fig-width: 11
+
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food_consumption
+
+fcc <- fc %>%
+  mutate(country = case_when(
+    country == "United States of America" ~ "USA",
+    country == "Bosnia and Herz" ~ "Bosnia and Herzegovina",
+    country == "Czechia" ~ "Czech Republic",
+    country == "Taiwan" ~ "Taiwan. ROC",
+    TRUE ~ country
+  ))
+
+total_consumption_by_country <- fcc %>%
+  group_by(country) %>%
+  summarise(total_consumption = sum(consumption)) %>%
+  arrange(desc(total_consumption))
+
+world <- ne_countries(returnclass = "sf") %>%
+  select(name, geometry)
+
+world_consumption <- world %>%
+  left_join(total_consumption_by_country, by = c("name" = "country"))
+
+ggplot(world_consumption) +
+  geom_sf(aes(fill = total_consumption)) +
+  scale_fill_viridis_c(option = "plasma", na.value = "lightgray") +
+  labs(
+    title = "Total Food Consumption by Country",
+    fill = "Total Consumption"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
+
 # 2. Which top 5 countries consume each food are?
 
 ```{r}
+#| fig-height: 22
+
+#| fig-width: 11
+
 top_5_consumers_by_food <- fc %>%
   group_by(food_category) %>%
   arrange(desc(consumption), .by_group = TRUE) %>%
@@ -57,9 +121,75 @@ top_5_consumers_by_food <- fc %>%
 print(top_5_consumers_by_food)
 ```
 
+```{r}
+#| fig-height: 22
+
+#| fig-width: 11
+
+ggplot(top_5_consumers_by_food, aes(x = reorder(country, consumption), y = consumption, fill = country)) +
+  geom_col() +
+  facet_wrap(~food_category, scales = "free_y") + 
+  labs(title = "Top 5 Consumers by Food Category",
+       x = "Country",
+       y = "Consumption",
+       fill = "Country") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8),
+        strip.text.x = element_text(size = 8))
+```
+
+```{r}
+#| fig-height: 22
+
+#| fig=width: 11
+
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food_consumption
+
+fcc <- fc %>%
+  mutate(country = case_when(
+    country == "United States of America" ~ "USA",
+    country == "Bosnia and Herz" ~ "Bosnia and Herzegovina",
+    country == "Czechia" ~ "Czech Republic",
+    country == "Taiwan" ~ "Taiwan. ROC",
+    TRUE ~ country
+  ))
+
+top_5_consumers_by_food <- fcc %>%
+  group_by(food_category) %>%
+  arrange(desc(consumption), .by_group = TRUE) %>%
+  slice_head(n = 5)
+
+world <- ne_countries(returnclass = "sf") %>%
+  select(name, geometry)
+
+world_top_5_food <- world %>%
+  left_join(top_5_consumers_by_food %>% select(country, consumption, food_category),
+            by = c("name" = "country")) %>%
+  filter(!is.na(consumption))
+
+ggplot(world_top_5_food) +
+  geom_sf(aes(fill = consumption)) +
+  facet_wrap(~ food_category) +
+  scale_fill_viridis_c(option = "plasma", na.value = "lightgray") +
+  labs(
+    title = "Consumption of Each Food (Top 5 Consumers)",
+    fill = "Consumption"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    strip.text = element_text(size = 10),
+    plot.title = element_text(hjust = 0.5)
+  )
+```
+
 # 3 What does the consumption of each food look like?
 
 ```{r}
+#| fig-height: 22
+
+#| fig-width:11
+
 tuesdata <- tt_load('2020-02-18')
 fc <- tuesdata$food_consumption
 
@@ -93,6 +223,17 @@ world %>%
     strip.text = element_text(size = 10),
     plot.title = element_text(hjust = 0.5)
   )
+```
+```{r}
+ggplot(fc, aes(x = food_category, y = consumption)) +
+  geom_boxplot() +
+  labs(
+    title = "Distribution of Food Consumption by Category",
+    x = "Food Category",
+    y = "Consumption"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 
