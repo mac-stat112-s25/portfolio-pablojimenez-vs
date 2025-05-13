@@ -39,9 +39,6 @@ n_distinct(fc$`country`)
 Ploting a graph from the modified fc data having the food category in the x axis and consumtion in the y axis
 
 ```{R}
-#| fig-height: 11
-
-#| fig-width: 22
 
 ggplot(fc, aes(x = food_category, y = consumption, fill = country)) + 
   geom_col(position = "dodge") +  
